@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aurora Turntables | Precision Automotive Display</title>
+    <title>MHC Turntables | Precision Automotive Display</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700;800&display=swap');
@@ -354,7 +354,7 @@
             position: relative;
             border-radius: 1.5rem;
             overflow: hidden;
-            height: 320px;
+            height: 360px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             border: 1px solid var(--gray-700);
             transition: all 0.4s ease;
@@ -367,8 +367,9 @@
         
         .gallery-item img {
             width: 100%;
-            height: 100%;
+            height: 280px;
             object-fit: cover;
+            display: block;
             transition: transform 0.5s ease;
         }
         
@@ -376,24 +377,35 @@
             transform: scale(1.1);
         }
         
-        .gallery-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(to top, rgba(10, 10, 10, 0.9), transparent);
-            padding: 2rem;
-            opacity: 0;
-            transition: opacity 0.3s ease;
+        .gallery-info {
+            padding: 1rem;
+            background: rgba(10, 10, 10, 0.9);
+            text-align: center;
         }
         
-        .gallery-item:hover .gallery-overlay {
-            opacity: 1;
-        }
-        
-        .gallery-overlay h3 {
+        .gallery-info h3 {
             color: var(--gold);
-            font-size: 1.5rem;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .gallery-info .more-info-btn {
+            background: var(--gold);
+            color: var(--black);
+            border: none;
+            padding: 0.5rem 1.2rem;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 0.5rem;
+        }
+        
+        .gallery-info .more-info-btn:hover {
+            background: var(--gold-light);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
         }
         
         /* Features Section */
@@ -638,6 +650,14 @@
             .section {
                 padding: 4rem 2rem;
             }
+            
+            .gallery-item {
+                height: auto;
+            }
+            
+            .gallery-item img {
+                height: 240px;
+            }
         }
         
         @media (max-width: 480px) {
@@ -695,14 +715,13 @@
             <h2>Crafted for <span style="color: var(--gold);">Perfection</span></h2>
             <div class="divider"></div>
         </div>
+
+        <div class="about-image">
+            <img src="assets/image7.jpeg" alt="Craftsmanship">
+            <div class="about-glow"></div>
+        </div>
         
         <div class="about-content fade-in">
-            
-            <div class="about-image">
-                <img src="assets/image7.jpeg" alt="Craftsmanship">
-                <div class="about-glow"></div>
-            </div>
-            
             <div class="about-text">
                 <p>At MHC Turntables, we blend cutting-edge engineering with artisanal craftsmanship to create the world's most sophisticated automotive display solutions. Each turntable is meticulously designed and hand-assembled to showcase your vehicle as the masterpiece it truly is.</p>
                 <p>Our commitment to innovation, precision, and luxury has made us the preferred choice for collectors, dealerships, and automotive enthusiasts worldwide who demand nothing but the extraordinary.</p>
@@ -712,52 +731,58 @@
     </section>
 
     <!-- Gallery Section -->
-<section class="section gallery" id="gallery">
-    <div class="section-title fade-in">
-        <h2><span style="color: var(--gold);">Gallery</span> of Excellence</h2>
-        <div class="divider"></div>
-    </div>
-    
-    <div class="gallery-grid">
-        <div class="gallery-item fade-in">
-            <img src="assets/image1.jpeg" alt="Premium Turntable">
-            <div class="gallery-overlay">
-                <h3>Premium Turntable</h3>
+    <section class="section gallery" id="gallery">
+        <div class="section-title fade-in">
+            <h2><span style="color: var(--gold);">Gallery</span> of Excellence</h2>
+            <div class="divider"></div>
+        </div>
+        
+        <div class="gallery-grid">
+            <div class="gallery-item fade-in">
+                <img src="assets/image1.jpeg" alt="Turntable 1">
+                <div class="gallery-info">
+                  <h3>Premium Turntable</h3>
+                  <button class="more-info-btn" onclick="window.location.href='info1.html'">More Info</button>
+                </div>
+              </div>
+              
+            <div class="gallery-item fade-in">
+                <img src="assets/image2.jpeg" alt="Turntable 2">
+                <div class="gallery-info">
+                    <h3>Luxury Display</h3>
+                    <button class="more-info-btn" onclick="window.location.href='info2.html'">More Info</button>
+                </div>
+            </div>
+            <div class="gallery-item fade-in">
+                <img src="assets/image3.jpeg" alt="Turntable 3">
+                <div class="gallery-info">
+                    <h3>Custom Platform</h3>
+                    <button class="more-info-btn" onclick="window.location.href='info3.html'">More Info</button>
+                </div>
+            </div>
+            <div class="gallery-item fade-in">
+                <img src="assets/image4.jpeg" alt="Turntable 4">
+                <div class="gallery-info">
+                    <h3>Automotive Art</h3>
+                    <button class="more-info-btn" onclick="window.location.href='info4.html'">More Info</button>
+                </div>
+            </div>
+            <div class="gallery-item fade-in">
+                <img src="assets/image5.jpeg" alt="Turntable 5">
+                <div class="gallery-info">
+                    <h3>Engineering Marvel</h3>
+                    <button class="more-info-btn" onclick="window.location.href='info5.html'">More Info</button>
+                </div>
+            </div>
+            <div class="gallery-item fade-in">
+                <img src="assets/image6.jpeg" alt="Turntable 6">
+                <div class="gallery-info">
+                    <h3>Perfect Rotation</h3>
+                    <button class="more-info-btn" onclick="window.location.href='info6.html'">More Info</button>
+                </div>
             </div>
         </div>
-        <div class="gallery-item fade-in">
-            <img src="assets/image2.jpeg" alt="Luxury Display">
-            <div class="gallery-overlay">
-                <h3>Luxury Display</h3>
-            </div>
-        </div>
-        <div class="gallery-item fade-in">
-            <img src="assets/image3.jpeg" alt="Custom Platform">
-            <div class="gallery-overlay">
-                <h3>Custom Platform</h3>
-            </div>
-        </div>
-        <div class="gallery-item fade-in">
-            <img src="assets/image4.jpeg" alt="Automotive Art">
-            <div class="gallery-overlay">
-                <h3>Automotive Art</h3>
-            </div>
-        </div>
-        <div class="gallery-item fade-in">
-            <img src="assets/image5.jpeg" alt="Engineering Marvel">
-            <div class="gallery-overlay">
-                <h3>Engineering Marvel</h3>
-            </div>
-        </div>
-        <div class="gallery-item fade-in">
-            <img src="assets/image6.jpeg" alt="Perfect Rotation">
-            <div class="gallery-overlay">
-                <h3>Perfect Rotation</h3>
-            </div>
-        </div>
-    </div>
-</section>
-
+    </section>
 
     <!-- Features Section -->
     <section class="section" id="features">
@@ -825,7 +850,7 @@
                     </div>
                     <div class="contact-text">
                         <h4>Email</h4>
-                        <p>info@auroraturntables.com</p>
+                        <p>info@mhcturntables.com</p>
                     </div>
                 </div>
                 
@@ -877,7 +902,7 @@
 
     <!-- Footer -->
     <footer>
-        <p>&copy; 2025 MHC Turntables. All rights reserved. | Crafted with precision and passion.</p>
+        <p>&copy; 2024 MHC Turntables. All rights reserved. | Crafted with precision and passion.</p>
     </footer>
 
     <script>
@@ -921,6 +946,9 @@
                 }
             });
         });
+
+        // More Info button functionality
+        
     </script>
 </body>
 </html>
