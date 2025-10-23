@@ -1,270 +1,270 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Precision Turn Car Turntable</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LuxeSpin — Precision Car Turntable</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        body {
-            background-color: #000000;
-            color: #ffffff;
-            font-family: system-ui, -apple-system, sans-serif;
-            overflow-x: hidden;
-            line-height: 1.6;
-        }
+    body {
+      background-color: #000;
+      color: #fff;
+      font-family: system-ui, -apple-system, sans-serif;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
 
-        .hero {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            opacity: 0;
-            animation: fadeIn 1s ease-in-out forwards;
-        }
+    /* Hero Section */
+    .hero {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      opacity: 0;
+      animation: fadeIn 1s ease-in-out forwards;
+    }
 
-        .hero::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to bottom, #000000, transparent, #000000);
-            pointer-events: none;
-        }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, #000, transparent, #000);
+      pointer-events: none;
+    }
 
-        .product-name-hero {
-            font-size: clamp(2.5rem, 8vw, 6rem);
-            font-weight: 300;
-            color: #D4AF37;
-            text-align: center;
-            padding: 0 1rem;
-            opacity: 0;
-            transform: translateY(50px);
-            animation: slideUp 1s ease-out 0.3s forwards;
-        }
+    .product-name-hero {
+      font-size: clamp(2.5rem, 8vw, 6rem);
+      font-weight: 300;
+      color: #d4af37;
+      text-align: center;
+      padding: 0 1rem;
+      opacity: 0;
+      transform: translateY(50px);
+      animation: slideUp 1s ease-out 0.3s forwards;
+    }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 4rem 1rem;
-        }
+    /* Container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 4rem 1rem;
+    }
 
-        .product-image-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 3rem;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 0.8s ease-out 0.2s forwards;
-        }
+    /* Product Image */
+    .product-image-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 0;
+      background-color: black;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 0.8s ease-out 0.2s forwards;
+    }
 
-        .product-image-placeholder {
-            width: 100%;
-            max-width: 800px;
-            aspect-ratio: 1/1;
-            background: linear-gradient(135deg, #111111 0%, #000000 100%);
-            border-radius: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid #222222;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-        }
+    .product-image {
+      width: 90%;
+      max-width: 600px;
+      border: 2px solid #d4af37;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
 
-        .product-image-placeholder span {
-            color: #444444;
-            font-size: 1.25rem;
-        }
+    .product-image:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 25px rgba(212, 175, 55, 0.5);
+    }
 
-        .product-details {
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 0.8s ease-out 0.4s forwards;
-        }
+    /* Product Details */
+    .product-details {
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 0.8s ease-out 0.4s forwards;
+    }
 
-        .product-title {
-            font-size: clamp(1.875rem, 4vw, 2.25rem);
-            font-weight: 300;
-            color: #D4AF37;
-            margin-bottom: 1rem;
-        }
+    .product-title {
+      font-size: clamp(1.875rem, 4vw, 2.25rem);
+      font-weight: 300;
+      color: #d4af37;
+      margin-bottom: 1rem;
+    }
 
-        .product-price {
-            font-size: clamp(1.5rem, 3vw, 1.875rem);
-            font-weight: 300;
-            color: #a0a0a0;
-            margin-bottom: 2rem;
-        }
+    .product-price {
+      font-size: clamp(1.5rem, 3vw, 1.875rem);
+      font-weight: 300;
+      color: #a0a0a0;
+      margin-bottom: 2rem;
+    }
 
-        .product-description {
-            color: #a0a0a0;
-            font-size: clamp(1.125rem, 2.5vw, 1.25rem);
-            line-height: 1.8;
-            margin-bottom: 2rem;
-        }
+    .product-description {
+      color: #a0a0a0;
+      font-size: clamp(1.125rem, 2.5vw, 1.25rem);
+      line-height: 1.8;
+      margin-bottom: 2rem;
+    }
 
-        .cta-container {
-            display: flex;
-            justify-content: center;
-            margin-top: 4rem;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 0.8s ease-out 0.6s forwards;
-        }
+    /* CTA Button */
+    .cta-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 4rem;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 0.8s ease-out 0.6s forwards;
+    }
 
-        .cta-button {
-            padding: 1rem 3rem;
-            font-size: 1.125rem;
-            font-weight: 300;
-            background-color: #D4AF37;
-            color: #000000;
-            border: none;
-            border-radius: 9999px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-family: system-ui, -apple-system, sans-serif;
-        }
+    .cta-button {
+      padding: 1rem 3rem;
+      font-size: 1.125rem;
+      font-weight: 300;
+      background-color: #d4af37;
+      color: #000;
+      border: none;
+      border-radius: 9999px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
 
-        .cta-button:hover {
-            background-color: #B8860B;
-            transform: scale(1.05);
-        }
+    .cta-button:hover {
+      background-color: #b8860b;
+      transform: scale(1.05);
+    }
 
-        .cta-button:active {
-            transform: scale(0.95);
-        }
+    .cta-button:active {
+      transform: scale(0.95);
+    }
 
-        /* Background decorative elements */
-        .bg-decoration-1,
-        .bg-decoration-2 {
-            position: absolute;
-            border: 1px solid #222222;
-            border-radius: 50%;
-            opacity: 0.05;
-            pointer-events: none;
-        }
+    /* Background Decorations */
+    .bg-decoration-1,
+    .bg-decoration-2 {
+      position: absolute;
+      border: 1px solid #222;
+      border-radius: 50%;
+      opacity: 0.05;
+      pointer-events: none;
+    }
 
-        .bg-decoration-1 {
-            top: 25%;
-            left: 25%;
-            width: 24rem;
-            height: 24rem;
-        }
+    .bg-decoration-1 {
+      top: 25%;
+      left: 25%;
+      width: 24rem;
+      height: 24rem;
+    }
 
-        .bg-decoration-2 {
-            bottom: 25%;
-            right: 25%;
-            width: 16rem;
-            height: 16rem;
-        }
+    .bg-decoration-2 {
+      bottom: 25%;
+      right: 25%;
+      width: 16rem;
+      height: 16rem;
+    }
 
-        /* Animations */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
 
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .container {
-                padding: 3rem 1rem;
-            }
-            
-            .product-image-placeholder {
-                max-width: 90vw;
-                border-radius: 0.75rem;
-            }
-        }
+    /* Responsive */
+    @media (max-width: 768px) {
+      .container {
+        padding: 3rem 1rem;
+      }
 
-        .product-image-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 40px 0;
-  background-color: black;
-}
-
-.product-image {
-  width: 90%;
-  max-width: 600px;
-  border: 2px solid var(--gold);
-  border-radius: 15px;
-  box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
-  transition: transform 0.4s ease, box-shadow 0.4s ease;
-}
-
-.product-image:hover {
-  transform: scale(1.03);
-  box-shadow: 0 0 25px rgba(212, 175, 55, 0.5);
-}
-
-    </style>
+      .product-image {
+        max-width: 90vw;
+        border-radius: 0.75rem;
+      }
+    }
+  </style>
 </head>
 <body>
-    <!-- Hero Section -->
-   
+  <!-- Hero Section -->
+ 
 
-    <!-- Main Content -->
-    <main class="container">
-        <!-- Product Image -->
-        <div class="product-image-container">
-          <img src="assets/image6.jpeg" alt="Turntable" class="product-image">
-        </div>
-      </main>
-      
+  <!-- Main Content -->
+  <main class="container">
+    <!-- Product Image -->
+    <div class="product-image-container">
+      <img src="assets/image6.jpeg" alt="Turntable" class="product-image" />
+    </div>
 
-        <!-- Product Details -->
-        <div class="product-details">
-            <h2 class="product-title">Precision Turn Car Turntable</h2>
-            <p class="product-price">$12,995</p>
-            <div class="product-description">
-                <p>Experience the pinnacle of automotive display technology with our custom-engineered car turntable. Crafted with aerospace-grade materials and precision German engineering, this turntable provides seamless 360-degree rotation with whisper-quiet operation and unmatched stability.</p>
-                <p style="margin-top: 1.5rem;">Featuring a 3,000-pound capacity, integrated LED lighting system, and smart control interface, our turntable transforms any space into a premium automotive showcase. The self-leveling platform ensures perfect balance on any surface, while the gold-accented control panel adds a touch of luxury that complements your finest vehicles.</p>
-            </div>
-        </div>
+    <!-- Product Details -->
+    <div class="product-details">
+      <h2 class="product-title">LuxeSpin Turntable</h2>
+      <p class="product-price">145,995 (SAR)</p>
 
-        <!-- CTA Button -->
-        <div class="cta-container">
-            <button class="cta-button">CONTACT US</button>
-        </div>
-    </main>
+      <div class="product-description">
+        <p>
+          Experience the power and elegance of our premium flat turntable, engineered for
+          performance and style. With its sleek, shining black finish, this turntable isn’t just
+          built to impress—it’s built to handle over <strong>1500 kg</strong> with ease. Strong, stable,
+          and stunning — it’s the perfect blend of durability and modern design for any
+          professional setup.
+        </p>
 
-    <!-- Background Decorative Elements -->
-    <div class="bg-decoration-1"></div>
-    <div class="bg-decoration-2"></div>
+        <p style="margin-top: 1.5rem;">
+          Featuring four zones of precision lighting, the system enhances your vehicle’s
+          aesthetics with programmable illumination that adapts to the time of day for optimal
+          visual impact.
+        </p>
+
+        <p style="margin-top: 1.5rem;">
+          Integrated proximity sensors detect customer presence, activating smooth rotation only
+          when desired — a blend of intelligence and elegance.
+        </p>
+
+        <p style="margin-top: 1.5rem;">
+          All functions are easily managed through the main control panel or directly from your
+          mobile device, putting total control at your fingertips.
+        </p>
+
+        <p style="margin-top: 1.5rem; font-style: italic;">
+          MHC — Engineered for perfection. Designed to impress.
+        </p>
+      </div>
+    </div>
+
+    <!-- CTA Button -->
+    <div class="cta-container">
+      <button class="cta-button">CONTACT US</button>
+    </div>
+  </main>
+
+  <!-- Background Decorations -->
+  <div class="bg-decoration-1"></div>
+  <div class="bg-decoration-2"></div>
 </body>
 </html>
