@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Saudi Turntables | Precision Automotive Display</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Added Arabic font (Cairo) + existing fonts -->
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700;800&family=Cairo:wght@300;400;600;700&display=swap');
         
         :root {
             --black: #0a0a0a;
@@ -26,8 +27,16 @@
             box-sizing: border-box;
         }
         
-        body {
+        /* Default font for LTR (English) */
+        html[lang="en"] body {
             font-family: 'Montserrat', sans-serif;
+        }
+        /* Arabic font for RTL */
+        html[lang="ar"] body {
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        body {
             background-color: var(--black);
             color: var(--white);
             overflow-x: hidden;
@@ -63,6 +72,12 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 1rem;
+        }
+        
+        /* Adjustments for RTL: reverse ordering and alignments */
+        html[dir="rtl"] .nav-container {
+            direction: rtl;
         }
         
         .logo {
@@ -73,6 +88,28 @@
         
         .logo span {
             color: var(--gold);
+        }
+        
+        .lang-switch {
+            display: inline-flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        .lang-btn {
+            background: transparent;
+            color: var(--white);
+            border: 1px solid rgba(255,255,255,0.08);
+            padding: 0.35rem 0.6rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+        .lang-btn.active {
+            background: var(--gold);
+            color: var(--black);
+            border-color: var(--gold);
         }
         
         .nav-btn {
@@ -150,6 +187,12 @@
             text-align: center;
             max-width: 800px;
             z-index: 1;
+            padding: 2rem;
+        }
+        
+        /* For RTL, center text becomes right-aligned for a more natural look */
+        html[dir="rtl"] .hero-content {
+            text-align: center; /* still centered but Arabic reads right-to-left inside */
         }
         
         .hero h1 {
@@ -296,6 +339,12 @@
             grid-template-columns: 1fr 1fr;
             gap: 4rem;
             align-items: center;
+        }
+        
+        /* For RTL, flip the grid so image comes on the opposite side naturally */
+        html[dir="rtl"] .about-content {
+            direction: rtl;
+            grid-template-columns: 1fr 1fr;
         }
         
         .about-text p {
@@ -482,6 +531,12 @@
             align-items: flex-start;
         }
         
+        /* In RTL, flip contact item layout so icon stays visually on the "start" side */
+        html[dir="rtl"] .contact-item {
+            flex-direction: row-reverse;
+            text-align: right;
+        }
+        
         .contact-icon {
             width: 48px;
             height: 48px;
@@ -510,7 +565,9 @@
             display: flex;
             gap: 1rem;
             margin-top: 2rem;
+            justify-content: flex-start;
         }
+        html[dir="rtl"] .social-links { justify-content: flex-end; }
         
         .social-link {
             width: 40px;
@@ -562,7 +619,7 @@
             border: 1px solid var(--gray-700);
             border-radius: 0.75rem;
             color: var(--white);
-            font-family: 'Montserrat', sans-serif;
+            font-family: inherit;
             font-size: 1rem;
             transition: all 0.3s ease;
         }
@@ -688,23 +745,30 @@
     <nav id="navbar">
         <div class="nav-container">
             <div class="logo">Saudi <span>TURNTABLES</span></div>
-            <button class="nav-btn">Contact Us</button>
+
+            <div style="display:flex; gap:12px; align-items:center;">
+                <div class="lang-switch" role="navigation" aria-label="Language switch">
+                    <button class="lang-btn" id="btn-en" data-lang="en">EN</button>
+                    <button class="lang-btn" id="btn-ar" data-lang="ar">عربي</button>
+                </div>
+                <button class="nav-btn" id="contactBtn" data-i18n="nav.contact">Contact Us</button>
+            </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section class="hero">
+    <section class="hero" id="hero">
         <div class="hero-glow-1"></div>
         <div class="hero-glow-2"></div>
         <div class="floating-circle circle-1"></div>
         <div class="floating-circle circle-2"></div>
         
         <div class="hero-content">
-            <h1>Show Your Cars Like Never Before</h1>
-            <p>Precision-engineered automotive turntables that transform your vehicle into a captivating centerpiece.</p>
+            <h1 data-i18n="hero.title">Show Your Cars Like Never Before</h1>
+            <p data-i18n="hero.subtitle">Precision-engineered automotive turntables that transform your vehicle into a captivating centerpiece.</p>
             <div class="hero-buttons">
-                <a href="#gallery" class="btn-primary">View Our Designs <i class="fas fa-arrow-right"></i></a>
-                <a href="#contact" class="btn-secondary">Contact Us</a>
+                <a href="#gallery" class="btn-primary" id="viewDesigns" data-i18n="hero.view">View Our Designs <i class="fas fa-arrow-right"></i></a>
+                <a href="#contact" class="btn-secondary" id="contactCTa" data-i18n="hero.contact">Contact Us</a>
             </div>
         </div>
     </section>
@@ -712,7 +776,7 @@
     <!-- About Section -->
     <section class="section" id="about">
         <div class="section-title fade-in">
-            <h2>Crafted for <span style="color: var(--gold);">Perfection</span></h2>
+            <h2 data-i18n="about.title">Crafted for <span style="color: var(--gold);">Perfection</span></h2>
             <div class="divider"></div>
         </div>
 
@@ -723,17 +787,16 @@
         
         <div class="about-content fade-in">
             <div class="about-text">
-                <p>At Saudi Turntables, we blend cutting-edge engineering with artisanal craftsmanship to create the world's most sophisticated automotive display solutions. Each turntable is meticulously designed and hand-assembled to showcase your vehicle as the masterpiece it truly is.</p>
-                <p>Our commitment to innovation, precision, and luxury has made us the preferred choice for collectors, dealerships, and automotive enthusiasts worldwide who demand nothing but the extraordinary.</p>
+                <p data-i18n="about.p1">At Saudi Turntables, we blend cutting-edge engineering with artisanal craftsmanship to create the world's most sophisticated automotive display solutions. Each turntable is meticulously designed and hand-assembled to showcase your vehicle as the masterpiece it truly is.</p>
+                <p data-i18n="about.p2">Our commitment to innovation, precision, and luxury has made us the preferred choice for collectors, dealerships, and automotive enthusiasts worldwide who demand nothing but the extraordinary.</p>
             </div>
-           
         </div>
     </section>
 
     <!-- Gallery Section -->
     <section class="section gallery" id="gallery">
         <div class="section-title fade-in">
-            <h2><span style="color: var(--gold);">Gallery</span> of Excellence</h2>
+            <h2><span style="color: var(--gold);" data-i18n="gallery.titleGold">Gallery</span> <span data-i18n="gallery.title">of Excellence</span></h2>
             <div class="divider"></div>
         </div>
         
@@ -741,44 +804,44 @@
             <div class="gallery-item fade-in">
                 <img src="assets/image7.jpeg" alt="Turntable 1">
                 <div class="gallery-info">
-                  <h3>Premium Turntable</h3>
-                  <button class="more-info-btn" onclick="window.location.href='info1.html'">More Info</button>
+                  <h3 data-i18n="gallery.item1">Premium Turntable</h3>
+                  <button class="more-info-btn" onclick="window.location.href='info1.html'" data-i18n="gallery.more">More Info</button>
                 </div>
               </div>
               
             <div class="gallery-item fade-in">
                 <img src="assets/image2.jpeg" alt="Turntable 2">
                 <div class="gallery-info">
-                    <h3>Luxury Display</h3>
-                    <button class="more-info-btn" onclick="window.location.href='info2.html'">More Info</button>
+                    <h3 data-i18n="gallery.item2">Luxury Display</h3>
+                    <button class="more-info-btn" onclick="window.location.href='info2.html'" data-i18n="gallery.more">More Info</button>
                 </div>
             </div>
             <div class="gallery-item fade-in">
                 <img src="assets/image3.jpeg" alt="Turntable 3">
                 <div class="gallery-info">
-                    <h3>Custom Platform</h3>
-                    <button class="more-info-btn" onclick="window.location.href='info3.html'">More Info</button>
+                    <h3 data-i18n="gallery.item3">Custom Platform</h3>
+                    <button class="more-info-btn" onclick="window.location.href='info3.html'" data-i18n="gallery.more">More Info</button>
                 </div>
             </div>
             <div class="gallery-item fade-in">
                 <img src="assets/image4.jpeg" alt="Turntable 4">
                 <div class="gallery-info">
-                    <h3>Automotive Art</h3>
-                    <button class="more-info-btn" onclick="window.location.href='info4.html'">More Info</button>
+                    <h3 data-i18n="gallery.item4">Automotive Art</h3>
+                    <button class="more-info-btn" onclick="window.location.href='info4.html'" data-i18n="gallery.more">More Info</button>
                 </div>
             </div>
             <div class="gallery-item fade-in">
                 <img src="assets/image5.jpeg" alt="Turntable 5">
                 <div class="gallery-info">
-                    <h3>Engineering Marvel</h3>
-                    <button class="more-info-btn" onclick="window.location.href='info5.html'">More Info</button>
+                    <h3 data-i18n="gallery.item5">Engineering Marvel</h3>
+                    <button class="more-info-btn" onclick="window.location.href='info5.html'" data-i18n="gallery.more">More Info</button>
                 </div>
             </div>
             <div class="gallery-item fade-in">
                 <img src="assets/image1.jpeg" alt="Turntable 6">
                 <div class="gallery-info">
-                    <h3>Perfect Rotation</h3>
-                    <button class="more-info-btn" onclick="window.location.href='info6.html'">More Info</button>
+                    <h3 data-i18n="gallery.item6">Perfect Rotation</h3>
+                    <button class="more-info-btn" onclick="window.location.href='info6.html'" data-i18n="gallery.more">More Info</button>
                 </div>
             </div>
         </div>
@@ -787,7 +850,7 @@
     <!-- Features Section -->
     <section class="section" id="features">
         <div class="section-title fade-in">
-            <h2>Why Choose <span style="color: var(--gold);">Saudi Turntables?</span></h2>
+            <h2 data-i18n="features.title">Why Choose <span style="color: var(--gold);">Saudi Turntables?</span></h2>
             <div class="divider"></div>
         </div>
         
@@ -796,29 +859,29 @@
                 <div class="feature-icon">
                     <i class="fas fa-cogs"></i>
                 </div>
-                <h3>Precision Engineering</h3>
-                <p>Precisely designed and engineered by specialized engineers with decades of experience.</p>
+                <h3 data-i18n="features.f1.title">Precision Engineering</h3>
+                <p data-i18n="features.f1.desc">Precisely designed and engineered by specialized engineers with decades of experience.</p>
             </div>
             <div class="feature-card fade-in">
                 <div class="feature-icon">
                     <i class="fas fa-shield-alt"></i>
                 </div>
-                <h3>Industrial Durability</h3>
-                <p>Built to withstand extreme conditions while maintaining silent operation.</p>
+                <h3 data-i18n="features.f2.title">Industrial Durability</h3>
+                <p data-i18n="features.f2.desc">Built to withstand extreme conditions while maintaining silent operation.</p>
             </div>
             <div class="feature-card fade-in">
                 <div class="feature-icon">
                     <i class="fas fa-palette"></i>
                 </div>
-                <h3>Custom Aesthetics</h3>
-                <p>Tailored finishes and lighting to complement your vehicle's unique character.</p>
+                <h3 data-i18n="features.f3.title">Custom Aesthetics</h3>
+                <p data-i18n="features.f3.desc">Tailored finishes and lighting to complement your vehicle's unique character.</p>
             </div>
             <div class="feature-card fade-in">
                 <div class="feature-icon">
                     <i class="fas fa-users"></i>
                 </div>
-                <h3>Bespoke Solutions</h3>
-                <p>Fully customizable platforms designed for your specific automotive masterpiece.</p>
+                <h3 data-i18n="features.f4.title">Bespoke Solutions</h3>
+                <p data-i18n="features.f4.desc">Fully customizable platforms designed for your specific automotive masterpiece.</p>
             </div>
         </div>
     </section>
@@ -826,21 +889,21 @@
     <!-- Contact Section -->
     <section class="section contact" id="contact">
         <div class="section-title fade-in">
-            <h2><span style="color: var(--gold);">Get In</span> Touch</h2>
+            <h2><span style="color: var(--gold);" data-i18n="contact.titleGold">Get In</span> <span data-i18n="contact.title">Touch</span></h2>
             <div class="divider"></div>
         </div>
         
         <div class="contact-container">
             <div class="contact-info fade-in">
-                <h3>Contact Information</h3>
+                <h3 data-i18n="contact.heading">Contact Information</h3>
                 
                 <div class="contact-item">
                     <div class="contact-icon">
                         <i class="fas fa-phone"></i>
                     </div>
                     <div class="contact-text">
-                        <h4>Phone</h4>
-                        <p>(+966) 500 567 018</p>
+                        <h4 data-i18n="contact.phoneTitle">Phone</h4>
+                        <p data-i18n="contact.phone">(+966) 500 567 018</p>
                     </div>
                 </div>
                 
@@ -849,8 +912,8 @@
                         <i class="fas fa-envelope"></i>
                     </div>
                     <div class="contact-text">
-                        <h4>Email</h4>
-                        <p>info@SaudiTurntable.com</p>
+                        <h4 data-i18n="contact.emailTitle">Email</h4>
+                        <p data-i18n="contact.email">info@SaudiTurntable.com</p>
                     </div>
                 </div>
 
@@ -859,8 +922,8 @@
                         <i class="fas fa-envelope"></i>
                     </div>
                     <div class="contact-text">
-                        <h4>Sales Email</h4>
-                        <p>Huthaifah@SaudiTurntable.com</p>
+                        <h4 data-i18n="contact.salesTitle">Sales Email</h4>
+                        <p data-i18n="contact.salesEmail">Huthaifah@SaudiTurntable.com</p>
                     </div>
                 </div>
                 
@@ -869,42 +932,42 @@
                         <i class="fas fa-map-marker-alt"></i>
                     </div>
                     <div class="contact-text">
-                        <h4>Location</h4>
-                        <p>Riyadh, Saudi Arabia</p>
+                        <h4 data-i18n="contact.locationTitle">Location</h4>
+                        <p data-i18n="contact.location">Riyadh, Saudi Arabia</p>
                     </div>
                 </div>
                 
                 <div class="social-links">
-                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
                 </div>
             </div>
             
             <div class="contact-form fade-in">
-                <form>
+                <form id="contactForm">
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="firstName">First Name</label>
-                            <input type="text" id="firstName" class="form-control" placeholder="John">
+                            <label for="firstName" data-i18n="form.firstNameLabel">First Name</label>
+                            <input type="text" id="firstName" class="form-control" placeholder="John" data-i18n-placeholder="form.firstNamePlaceholder">
                         </div>
                         <div class="form-group">
-                            <label for="lastName">Last Name</label>
-                            <input type="text" id="lastName" class="form-control" placeholder="Doe">
+                            <label for="lastName" data-i18n="form.lastNameLabel">Last Name</label>
+                            <input type="text" id="lastName" class="form-control" placeholder="Doe" data-i18n-placeholder="form.lastNamePlaceholder">
                         </div>
                     </div>
                     
                     <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" class="form-control" placeholder="john@example.com">
+                        <label for="email" data-i18n="form.emailLabel">Email</label>
+                        <input type="email" id="email" class="form-control" placeholder="john@example.com" data-i18n-placeholder="form.emailPlaceholder">
                     </div>
                     
                     <div class="form-group">
-                        <label for="message">Project Details</label>
-                        <textarea id="message" class="form-control" placeholder="Tell us about your project..."></textarea>
+                        <label for="message" data-i18n="form.messageLabel">Project Details</label>
+                        <textarea id="message" class="form-control" placeholder="Tell us about your project..." data-i18n-placeholder="form.messagePlaceholder"></textarea>
                     </div>
                     
-                    <button type="submit" class="submit-btn">Send Message</button>
+                    <button type="submit" class="submit-btn" data-i18n="form.send">Send Message</button>
                 </form>
             </div>
         </div>
@@ -912,10 +975,182 @@
 
     <!-- Footer -->
     <footer>
-        <p>&copy; 2024 Saudi Turntables. All rights reserved. | Crafted with precision and passion.</p>
+        <p data-i18n="footer">&copy; 2024 Saudi Turntables. All rights reserved. | Crafted with precision and passion.</p>
     </footer>
 
     <script>
+        // Translations object: English (en) and Arabic (ar)
+        const TRANSLATIONS = {
+            en: {
+                "nav.contact": "Contact Us",
+                "hero.title": "Show Your Cars Like Never Before",
+                "hero.subtitle": "Precision-engineered automotive turntables that transform your vehicle into a captivating centerpiece.",
+                "hero.view": "View Our Designs",
+                "hero.contact": "Contact Us",
+                "about.title": "Crafted for <span style='color: var(--gold);'>Perfection</span>",
+                "about.p1": "At Saudi Turntables, we blend cutting-edge engineering with artisanal craftsmanship to create the world's most sophisticated automotive display solutions. Each turntable is meticulously designed and hand-assembled to showcase your vehicle as the masterpiece it truly is.",
+                "about.p2": "Our commitment to innovation, precision, and luxury has made us the preferred choice for collectors, dealerships, and automotive enthusiasts worldwide who demand nothing but the extraordinary.",
+                "gallery.titleGold": "Gallery",
+                "gallery.title": "of Excellence",
+                "gallery.item1": "Premium Turntable",
+                "gallery.item2": "Luxury Display",
+                "gallery.item3": "Custom Platform",
+                "gallery.item4": "Automotive Art",
+                "gallery.item5": "Engineering Marvel",
+                "gallery.item6": "Perfect Rotation",
+                "gallery.more": "More Info",
+                "features.title": "Why Choose <span style='color: var(--gold);'>Saudi Turntables?</span>",
+                "features.f1.title": "Precision Engineering",
+                "features.f1.desc": "Precisely designed and engineered by specialized engineers with decades of experience.",
+                "features.f2.title": "Industrial Durability",
+                "features.f2.desc": "Built to withstand extreme conditions while maintaining silent operation.",
+                "features.f3.title": "Custom Aesthetics",
+                "features.f3.desc": "Tailored finishes and lighting to complement your vehicle's unique character.",
+                "features.f4.title": "Bespoke Solutions",
+                "features.f4.desc": "Fully customizable platforms designed for your specific automotive masterpiece.",
+                "contact.titleGold": "Get In",
+                "contact.title": "Touch",
+                "contact.heading": "Contact Information",
+                "contact.phoneTitle": "Phone",
+                "contact.phone": "(+966) 500 567 018",
+                "contact.emailTitle": "Email",
+                "contact.email": "info@SaudiTurntable.com",
+                "contact.salesTitle": "Sales Email",
+                "contact.salesEmail": "Huthaifah@SaudiTurntable.com",
+                "contact.locationTitle": "Location",
+                "contact.location": "Riyadh, Saudi Arabia",
+                "form.firstNameLabel": "First Name",
+                "form.firstNamePlaceholder": "John",
+                "form.lastNameLabel": "Last Name",
+                "form.lastNamePlaceholder": "Doe",
+                "form.emailLabel": "Email",
+                "form.emailPlaceholder": "john@example.com",
+                "form.messageLabel": "Project Details",
+                "form.messagePlaceholder": "Tell us about your project...",
+                "form.send": "Send Message",
+                "footer": "© 2024 Saudi Turntables. All rights reserved. | Crafted with precision and passion."
+            },
+            ar: {
+                "nav.contact": "تواصل معنا",
+                "hero.title": "اعرض سياراتك كما لم يحدث من قبل",
+                "hero.subtitle": "منصات عرض دوارة هندسية دقيقة تحول سيارتك إلى قطعة فنية جاذبة للأنظار.",
+                "hero.view": "عرض التصاميم",
+                "hero.contact": "تواصل معنا",
+                "about.title": "صُنعت من أجل <span style='color: var(--gold);'>الكمال</span>",
+                "about.p1": "في Saudi Turntables، نمزج الهندسة المتقدمة مع الحرفية اليدوية لابتكار أكثر حلول عرض السيارات تطوراً. كل منصة دوارة مصممة ومجمعة يدوياً بعناية لتقديم سيارتك كتحفة فنية حقيقية.",
+                "about.p2": "التزامنا بالابتكار والدقة والفخامة جعلنا الخيار المفضل للهواة والتجار وجامعي السيارات حول العالم الذين لا يقبلون إلا بالاستثنائي.",
+                "gallery.titleGold": "المعرض",
+                "gallery.title": "للتميّز",
+                "gallery.item1": "منصة فاخرة",
+                "gallery.item2": "عرض فاخر",
+                "gallery.item3": "منصة مخصصة",
+                "gallery.item4": "فن سياراتي",
+                "gallery.item5": "روعة هندسية",
+                "gallery.item6": "دوران مثالي",
+                "gallery.more": "المزيد",
+                "features.title": "لماذا تختار <span style='color: var(--gold);'>Saudi Turntables؟</span>",
+                "features.f1.title": "هندسة دقيقة",
+                "features.f1.desc": "مصممة ومهندسة بدقة من قبل مهندسين متخصصين ذوي خبرة عقود.",
+                "features.f2.title": "متانة صناعية",
+                "features.f2.desc": "مصممة لتحمل أقسى الظروف مع تشغيل صامت.",
+                "features.f3.title": "جماليات مخصصة",
+                "features.f3.desc": "تشطيبات وإضاءات مصممة لتكمل طابع سيارتك الفريد.",
+                "features.f4.title": "حلول مصممة خصيصاً",
+                "features.f4.desc": "منصات قابلة للتخصيص بالكامل مصممة لتحفة سيارتك الخاصة.",
+                "contact.titleGold": "تواصل",
+                "contact.title": "معنا",
+                "contact.heading": "معلومات التواصل",
+                "contact.phoneTitle": "الهاتف",
+                "contact.phone": "(+966) 500 567 018",
+                "contact.emailTitle": "البريد الإلكتروني",
+                "contact.email": "info@SaudiTurntable.com",
+                "contact.salesTitle": "بريد المبيعات",
+                "contact.salesEmail": "Huthaifah@SaudiTurntable.com",
+                "contact.locationTitle": "الموقع",
+                "contact.location": "الرياض، المملكة العربية السعودية",
+                "form.firstNameLabel": "الاسم الأول",
+                "form.firstNamePlaceholder": "أحمد",
+                "form.lastNameLabel": "اسم العائلة",
+                "form.lastNamePlaceholder": "الاسم",
+                "form.emailLabel": "البريد الإلكتروني",
+                "form.emailPlaceholder": "example@domain.com",
+                "form.messageLabel": "تفاصيل المشروع",
+                "form.messagePlaceholder": "أخبرنا عن مشروعك...",
+                "form.send": "إرسال الرسالة",
+                "footer": "© 2024 Saudi Turntables. جميع الحقوق محفوظة. | مصممة بدقة وشغف."
+            }
+        };
+
+        // Apply translations to elements with data-i18n and data-i18n-placeholder
+        function applyTranslations(lang) {
+            // Set html lang and dir attributes
+            document.documentElement.lang = lang;
+            document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+            
+            // Toggle active state on language buttons
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.lang === lang);
+            });
+
+            const translations = TRANSLATIONS[lang] || TRANSLATIONS.en;
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                const value = translations[key];
+                if (value !== undefined) {
+                    // If node contains inline HTML (like spans), we set innerHTML; otherwise textContent.
+                    // We make a simple heuristic: if translation contains '<', set innerHTML.
+                    if (value.includes('<')) {
+                        el.innerHTML = value;
+                    } else {
+                        el.textContent = value;
+                    }
+                }
+            });
+
+            // placeholders
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                const value = translations[key];
+                if (value !== undefined) {
+                    el.placeholder = value;
+                }
+            });
+
+            // Some elements require attribute updates (e.g., title tag)
+            if (translations['hero.title']) {
+                document.title = translations['hero.title'] + ' | Saudi Turntables';
+            }
+
+            // Optionally set direction-specific UI tweaks (e.g., arrow icons)
+            document.querySelectorAll('.fas.fa-arrow-right').forEach(icon => {
+                // flip arrow direction visually for Arabic
+                if (lang === 'ar') {
+                    icon.classList.remove('fa-arrow-right');
+                    icon.classList.add('fa-arrow-left');
+                } else {
+                    icon.classList.remove('fa-arrow-left');
+                    icon.classList.add('fa-arrow-right');
+                }
+            });
+        }
+
+        // Language switching logic with persistence
+        function setLanguage(lang) {
+            localStorage.setItem('site_lang', lang);
+            applyTranslations(lang);
+        }
+
+        // Initialize language from storage / default
+        (function initLanguage() {
+            const saved = localStorage.getItem('site_lang') || (navigator.language && navigator.language.startsWith('ar') ? 'ar' : 'en');
+            applyTranslations(saved);
+        })();
+
+        // Wire up language buttons
+        document.getElementById('btn-en').addEventListener('click', () => setLanguage('en'));
+        document.getElementById('btn-ar').addEventListener('click', () => setLanguage('ar'));
+
         // Navbar scroll effect
         const navbar = document.getElementById('navbar');
         window.addEventListener('scroll', () => {
@@ -957,8 +1192,21 @@
             });
         });
 
-        // More Info button functionality
-        
+        // contact form submit (prevent default for demo)
+        document.getElementById('contactForm').addEventListener('submit', function(e){
+            e.preventDefault();
+            const lang = document.documentElement.lang || 'en';
+            alert(lang === 'ar' ? 'تم استلام رسالتك! سيتواصل فريقنا معك قريباً.' : 'Message received! Our team will contact you shortly.');
+            this.reset();
+        });
+
+        // ensure language toolbar shows correct active state on load
+        window.addEventListener('DOMContentLoaded', () => {
+            const lang = document.documentElement.lang || localStorage.getItem('site_lang') || 'en';
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.lang === lang);
+            });
+        });
     </script>
 </body>
 </html>
