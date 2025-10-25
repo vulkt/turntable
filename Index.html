@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saudi Turntables | Precision Automotive Display</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700;800&display=swap');
+        
+        :root {
+            --black: #0a0a0a;
+            --gold: #d4af37; /* Rich, sophisticated gold */
+            --gold-light: #e6c229; /* Lighter gold for hover effects */
+            --gold-dark: #b8860b; /* Darker gold for depth */
+            --gray-900: #111111;
+            --gray-800: #1a1a1a;
+            --gray-700: #2a2a2a;
+            --gray-300: #d1d1d1;
+            --white: #ffffff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--black);
+            color: var(--white);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+        
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 1.5rem 0;
+            transition: all 0.3s ease;
+        }
+        
+        nav.scrolled {
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 0.75rem 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+        
+        .logo span {
+            color: var(--gold);
+        }
+        
+        .nav-btn {
+            background: var(--gold);
+            color: var(--black);
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-btn:hover {
+            background: var(--gold-light);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3);
+        }
+        
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            padding: 0 2rem;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--black) 0%, var(--black) 50%, #1a1a1a 100%);
+            z-index: -2;
+        }
+        
+        .hero-glow-1, .hero-glow-2 {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.15;
+            z-index: -1;
+        }
+        
+        .hero-glow-1 {
+            width: 400px;
+            height: 400px;
+            background: var(--gold);
+            top: 25%;
+            left: 25%;
+            animation: pulse 4s infinite alternate;
+        }
+        
+        .hero-glow-2 {
+            width: 300px;
+            height: 300px;
+            background: var(--gold);
+            bottom: 25%;
+            right: 25%;
+            animation: pulse 5s infinite alternate-reverse;
+        }
+        
+        @keyframes pulse {
+            from { opacity: 0.1; transform: scale(1); }
+            to { opacity: 0.25; transform: scale(1.2); }
+        }
+        
+        .hero-content {
+            text-align: center;
+            max-width: 800px;
+            z-index: 1;
+        }
+        
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, var(--white), var(--gold), var(--white));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% 200%;
+            animation: gradientShift 3s ease infinite;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .hero p {
+            font-size: clamp(1.1rem, 3vw, 1.5rem);
+            color: var(--gray-300);
+            margin-bottom: 2.5rem;
+            font-weight: 300;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn-primary {
+            background: var(--gold);
+            color: var(--black);
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            border: 2px solid var(--gold);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--gold);
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            border: 2px solid var(--gold);
+        }
+        
+        .btn-primary:hover, .btn-secondary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(212, 175, 55, 0.4);
+        }
+        
+        .btn-primary:hover {
+            background: var(--gold-light);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--gold);
+            color: var(--black);
+        }
+        
+        /* Floating Elements */
+        .floating-circle {
+            position: absolute;
+            border: 2px solid var(--gold);
+            border-radius: 50%;
+            opacity: 0.2;
+            z-index: 0;
+        }
+        
+        .circle-1 {
+            top: 5rem;
+            left: 5rem;
+            width: 80px;
+            height: 80px;
+            animation: rotate 20s linear infinite;
+        }
+        
+        .circle-2 {
+            bottom: 5rem;
+            right: 5rem;
+            width: 64px;
+            height: 64px;
+            animation: rotateReverse 15s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes rotateReverse {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(-360deg); }
+        }
+        
+        /* Section Styling */
+        .section {
+            padding: 8rem 2rem;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .section-title h2 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, var(--white), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+        
+        .section-title .divider {
+            width: 60px;
+            height: 3px;
+            background: var(--gold);
+            margin: 0 auto;
+            border-radius: 2px;
+        }
+        
+        /* About Section */
+        .about-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        
+        .about-text p {
+            font-size: 1.1rem;
+            color: var(--gray-300);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+        
+        .about-image {
+            position: relative;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--gray-700);
+        }
+        
+        .about-image img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .about-glow {
+            position: absolute;
+            bottom: -1.5rem;
+            right: -1.5rem;
+            width: 96px;
+            height: 96px;
+            background: var(--gold);
+            border-radius: 50%;
+            opacity: 0.15;
+            animation: pulseSmall 3s infinite alternate;
+        }
+        
+        @keyframes pulseSmall {
+            from { transform: scale(1); }
+            to { transform: scale(1.3); }
+        }
+        
+        /* Gallery Section */
+        .gallery {
+            background: var(--gray-900);
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .gallery-item {
+            position: relative;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            height: 360px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--gray-700);
+            transition: all 0.4s ease;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.2);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        
+        .gallery-info {
+            padding: 1rem;
+            background: rgba(10, 10, 10, 0.9);
+            text-align: center;
+        }
+        
+        .gallery-info h3 {
+            color: var(--gold);
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .gallery-info .more-info-btn {
+            background: var(--gold);
+            color: var(--black);
+            border: none;
+            padding: 0.5rem 1.2rem;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 0.5rem;
+        }
+        
+        .gallery-info .more-info-btn:hover {
+            background: var(--gold-light);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+        
+        /* Features Section */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .feature-card {
+            background: rgba(26, 26, 26, 0.5);
+            border: 1px solid var(--gray-700);
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--gold);
+            box-shadow: 0 15px 35px rgba(212, 175, 55, 0.15);
+        }
+        
+        .feature-icon {
+            width: 72px;
+            height: 72px;
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: var(--gold);
+            font-size: 1.8rem;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--white);
+        }
+        
+        .feature-card p {
+            color: var(--gray-300);
+            font-size: 1rem;
+        }
+        
+        /* Contact Section */
+        .contact {
+            background: var(--gray-900);
+        }
+        
+        .contact-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+        
+        .contact-info h3 {
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 2rem;
+        }
+        
+        .contact-item {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            align-items: flex-start;
+        }
+        
+        .contact-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--black);
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+        
+        .contact-text h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+            font-weight: 600;
+        }
+        
+        .contact-text p {
+            color: var(--gray-300);
+            font-size: 1rem;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: var(--gray-800);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .social-link:hover {
+            background: var(--gold);
+            color: var(--black);
+            transform: translateY(-3px);
+        }
+        
+        .contact-form {
+            background: rgba(26, 26, 26, 0.5);
+            border: 1px solid var(--gray-700);
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--gray-300);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 1rem;
+            background: var(--gray-800);
+            border: 1px solid var(--gray-700);
+            border-radius: 0.75rem;
+            color: var(--white);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+        }
+        
+        textarea.form-control {
+            resize: vertical;
+            min-height: 120px;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            background: var(--gold);
+            color: var(--black);
+            border: none;
+            padding: 1.25rem;
+            border-radius: 0.75rem;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+        
+        .submit-btn:hover {
+            background: var(--gold-light);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3);
+        }
+        
+        /* Footer */
+        footer {
+            padding: 2rem 2rem;
+            border-top: 1px solid var(--gray-700);
+            text-align: center;
+        }
+        
+        footer p {
+            color: var(--gray-300);
+            font-size: 0.95rem;
+        }
+        
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+        
+        .fade-in.appear {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .about-content,
+            .contact-container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .circle-1, .circle-2 {
+                display: none;
+            }
+            
+            .section {
+                padding: 4rem 2rem;
+            }
+            
+            .gallery-item {
+                height: auto;
+            }
+            
+            .gallery-item img {
+                height: 240px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .nav-container {
+                padding: 0 1rem;
+            }
+            
+            .hero {
+                padding: 0 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <div class="logo">Saudi <span>TURNTABLES</span></div>
+            <button class="nav-btn">Contact Us</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-glow-1"></div>
+        <div class="hero-glow-2"></div>
+        <div class="floating-circle circle-1"></div>
+        <div class="floating-circle circle-2"></div>
+        
+        <div class="hero-content">
+            <h1>Show Your Cars Like Never Before</h1>
+            <p>Precision-engineered automotive turntables that transform your vehicle into a captivating centerpiece.</p>
+            <div class="hero-buttons">
+                <a href="#gallery" class="btn-primary">View Our Designs <i class="fas fa-arrow-right"></i></a>
+                <a href="#contact" class="btn-secondary">Contact Us</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section" id="about">
+        <div class="section-title fade-in">
+            <h2>Crafted for <span style="color: var(--gold);">Perfection</span></h2>
+            <div class="divider"></div>
+        </div>
+
+        <div class="about-image">
+            <img src="assets/image6.jpeg" alt="Craftsmanship">
+            <div class="about-glow"></div>
+        </div>
+        
+        <div class="about-content fade-in">
+            <div class="about-text">
+                <p>At Saudi Turntables, we blend cutting-edge engineering with artisanal craftsmanship to create the world's most sophisticated automotive display solutions. Each turntable is meticulously designed and hand-assembled to showcase your vehicle as the masterpiece it truly is.</p>
+                <p>Our commitment to innovation, precision, and luxury has made us the preferred choice for collectors, dealerships, and automotive enthusiasts worldwide who demand nothing but the extraordinary.</p>
+            </div>
+           
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="section gallery" id="gallery">
+        <div class="section-title fade-in">
+            <h2><span style="color: var(--gold);">Gallery</span> of Excellence</h2>
+            <div class="divider"></div>
+        </div>
+        
+        <div class="gallery-grid">
+            <div class="gallery-item fade-in">
+                <img src="assets/image7.jpeg" alt="Turntable 1">
+                <div class="gallery-info">
+                  <h3>Premium Turntable</h3>
+                  <button class="more-info-btn" onclick="window.location.href='info1.html'">More Info</button>
+                </div>
+              </div>
+              
+            <div class="gallery-item fade-in">
+                <img src="assets/image2.jpeg" alt="Turntable 2">
+                <div class="gallery-info">
+                    <h3>Luxury Display</h3>
+                    <button class="more-info-btn" onclick="window.location.href='info2.html'">More Info</button>
+                </div>
+            </div>
+            <div class="gallery-item fade-in">
+                <img src="assets/image3.jpeg" alt="Turntable 3">
+                <div class="gallery-info">
+                    <h3>Custom Platform</h3>
+                    <button class="more-info-btn" onclick="window.location.href='info3.html'">More Info</button>
+                </div>
+            </div>
+            <div class="gallery-item fade-in">
+                <img src="assets/image4.jpeg" alt="Turntable 4">
+                <div class="gallery-info">
+                    <h3>Automotive Art</h3>
+                    <button class="more-info-btn" onclick="window.location.href='info4.html'">More Info</button>
+                </div>
+            </div>
+            <div class="gallery-item fade-in">
+                <img src="assets/image5.jpeg" alt="Turntable 5">
+                <div class="gallery-info">
+                    <h3>Engineering Marvel</h3>
+                    <button class="more-info-btn" onclick="window.location.href='info5.html'">More Info</button>
+                </div>
+            </div>
+            <div class="gallery-item fade-in">
+                <img src="assets/image1.jpeg" alt="Turntable 6">
+                <div class="gallery-info">
+                    <h3>Perfect Rotation</h3>
+                    <button class="more-info-btn" onclick="window.location.href='info6.html'">More Info</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section" id="features">
+        <div class="section-title fade-in">
+            <h2>Why Choose <span style="color: var(--gold);">Saudi Turntables?</span></h2>
+            <div class="divider"></div>
+        </div>
+        
+        <div class="features-grid">
+            <div class="feature-card fade-in">
+                <div class="feature-icon">
+                    <i class="fas fa-cogs"></i>
+                </div>
+                <h3>Precision Engineering</h3>
+                <p>Precisely designed and engineered by specialized engineers with decades of experience.</p>
+            </div>
+            <div class="feature-card fade-in">
+                <div class="feature-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>Industrial Durability</h3>
+                <p>Built to withstand extreme conditions while maintaining silent operation.</p>
+            </div>
+            <div class="feature-card fade-in">
+                <div class="feature-icon">
+                    <i class="fas fa-palette"></i>
+                </div>
+                <h3>Custom Aesthetics</h3>
+                <p>Tailored finishes and lighting to complement your vehicle's unique character.</p>
+            </div>
+            <div class="feature-card fade-in">
+                <div class="feature-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3>Bespoke Solutions</h3>
+                <p>Fully customizable platforms designed for your specific automotive masterpiece.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section contact" id="contact">
+        <div class="section-title fade-in">
+            <h2><span style="color: var(--gold);">Get In</span> Touch</h2>
+            <div class="divider"></div>
+        </div>
+        
+        <div class="contact-container">
+            <div class="contact-info fade-in">
+                <h3>Contact Information</h3>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <div class="contact-text">
+                        <h4>Phone</h4>
+                        <p>(+966) 500 567 018</p>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="contact-text">
+                        <h4>Email</h4>
+                        <p>info@SaudiTurntable.com</p>
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="contact-text">
+                        <h4>Sales Email</h4>
+                        <p>Huthaifah@SaudiTurntable.com</p>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="contact-text">
+                        <h4>Location</h4>
+                        <p>Riyadh, Saudi Arabia</p>
+                    </div>
+                </div>
+                
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+            
+            <div class="contact-form fade-in">
+                <form>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">First Name</label>
+                            <input type="text" id="firstName" class="form-control" placeholder="John">
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" id="lastName" class="form-control" placeholder="Doe">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" class="form-control" placeholder="john@example.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Project Details</label>
+                        <textarea id="message" class="form-control" placeholder="Tell us about your project..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Saudi Turntables. All rights reserved. | Crafted with precision and passion.</p>
+    </footer>
+
+    <script>
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Fade-in animations on scroll
+        const fadeElements = document.querySelectorAll('.fade-in');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('appear');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+        
+        fadeElements.forEach(element => {
+            observer.observe(element);
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // More Info button functionality
+        
+    </script>
+</body>
+</html>

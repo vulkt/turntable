@@ -18,7 +18,28 @@
       overflow-x: hidden;
       line-height: 1.6;
     }
+ /* ✅ Back Button */
+ .back-button {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      padding: 0.6rem 1.4rem;
+      font-size: 0.95rem;
+      border-radius: 9999px;
+      background: #111;
+      color: #d4af37;
+      border: 1px solid #d4af37;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      z-index: 999;
+    }
 
+    .back-button:hover {
+      background: #d4af37;
+      color: #000;
+      transform: scale(1.05);
+      box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+    }
     /* Hero Section */
     .hero {
       height: 100vh;
@@ -213,18 +234,21 @@
 <body>
   <!-- Hero Section -->
  
+<!-- ✅ Back Button -->
+<button class="back-button" onclick="window.history.back()">← Back</button>
+
 
   <!-- Main Content -->
   <main class="container">
     <!-- Product Image -->
     <div class="product-image-container">
-      <img src="assets/image6.jpeg" alt="Turntable" class="product-image" />
+      <img src="assets/image1.jpeg" alt="Turntable" class="product-image" />
     </div>
 
     <!-- Product Details -->
     <div class="product-details">
       <h2 class="product-title">LuxeSpin Turntable</h2>
-      <p class="product-price">145,995 (SAR)</p>
+      <p class="product-price"></p>
 
       <div class="product-description">
         <p>
