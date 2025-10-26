@@ -132,13 +132,14 @@
         
         /* Hero Section */
         .hero {
-            min-height: 100vh;
+            min-height: calc(100vh - 90px);
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
-            overflow: hidden;
-            padding: 0 2rem;
+            /* Allow text to expand in taller languages (Arabic) without being clipped */
+            overflow: visible;
+            padding: 3rem 2rem;
         }
         
         .hero::before {
@@ -190,9 +191,16 @@
             padding: 2rem;
         }
         
-        /* For RTL, center text becomes right-aligned for a more natural look */
+        /* For RTL, center text remains centered visually but line-height and padding increased */
         html[dir="rtl"] .hero-content {
-            text-align: center; /* still centered but Arabic reads right-to-left inside */
+            text-align: center;
+            padding-bottom: 2.5rem;
+        }
+
+        /* Improve line-height for Arabic to avoid clipping and overlapping */
+        html[dir="rtl"] .hero h1,
+        html[dir="rtl"] .hero p {
+            line-height: 1.35;
         }
         
         .hero h1 {
@@ -204,6 +212,7 @@
             -webkit-text-fill-color: transparent;
             background-size: 200% 200%;
             animation: gradientShift 3s ease infinite;
+            display: block;
         }
         
         @keyframes gradientShift {
@@ -331,20 +340,23 @@
             border-radius: 2px;
         }
         
-        /* About Section */
-        .about-content {
+        /* About Section - wrapped layout to control spacing */
+        .about-wrapper {
             max-width: 1200px;
             margin: 0 auto;
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 4rem;
+            gap: 4.5rem; /* added more space between image and text */
             align-items: center;
+            padding: 2rem 0;
         }
-        
-        /* For RTL, flip the grid so image comes on the opposite side naturally */
-        html[dir="rtl"] .about-content {
-            direction: rtl;
-            grid-template-columns: 1fr 1fr;
+
+        /* For smaller screens the wrapper stacks */
+        @media (max-width: 768px) {
+            .about-wrapper {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
         }
         
         .about-text p {
@@ -352,6 +364,7 @@
             color: var(--gray-300);
             margin-bottom: 1.5rem;
             line-height: 1.8;
+            text-align: center; /* centered text per request */
         }
         
         .about-image {
@@ -364,7 +377,8 @@
         
         .about-image img {
             width: 100%;
-            height: 400px;
+            height: 100%;
+            max-height: 420px;
             object-fit: cover;
             display: block;
         }
@@ -403,10 +417,13 @@
             position: relative;
             border-radius: 1.5rem;
             overflow: hidden;
-            height: 360px;
+            /* let the item height adapt to content so localized text doesn't get cut off */
+            height: auto;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             border: 1px solid var(--gray-700);
             transition: all 0.4s ease;
+            display: flex;
+            flex-direction: column;
         }
         
         .gallery-item:hover {
@@ -420,6 +437,7 @@
             object-fit: cover;
             display: block;
             transition: transform 0.5s ease;
+            flex-shrink: 0;
         }
         
         .gallery-item:hover img {
@@ -442,13 +460,16 @@
             background: var(--gold);
             color: var(--black);
             border: none;
-            padding: 0.5rem 1.2rem;
+            padding: 0.6rem 1.2rem;
             border-radius: 25px;
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             cursor: pointer;
             transition: all 0.3s ease;
             margin-top: 0.5rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
         }
         
         .gallery-info .more-info-btn:hover {
@@ -723,7 +744,7 @@
             }
             
             .hero {
-                padding: 0 1rem;
+                padding: 2rem 1rem;
             }
             
             .hero h1 {
@@ -780,12 +801,13 @@
             <div class="divider"></div>
         </div>
 
-        <div class="about-image">
-            <img src="assets/image6.jpeg" alt="Craftsmanship">
-            <div class="about-glow"></div>
-        </div>
-        
-        <div class="about-content fade-in">
+        <!-- Wrapped layout so image and text are in the same grid and have controlled spacing -->
+        <div class="about-wrapper fade-in">
+            <div class="about-image">
+                <img src="assets/image6.jpeg" alt="Craftsmanship">
+                <div class="about-glow"></div>
+            </div>
+
             <div class="about-text">
                 <p data-i18n="about.p1">At Saudi Turntables, we blend cutting-edge engineering with artisanal craftsmanship to create the world's most sophisticated automotive display solutions. Each turntable is meticulously designed and hand-assembled to showcase your vehicle as the masterpiece it truly is.</p>
                 <p data-i18n="about.p2">Our commitment to innovation, precision, and luxury has made us the preferred choice for collectors, dealerships, and automotive enthusiasts worldwide who demand nothing but the extraordinary.</p>
@@ -805,43 +827,43 @@
                 <img src="assets/image7.jpeg" alt="Turntable 1">
                 <div class="gallery-info">
                   <h3 data-i18n="gallery.item1">Premium Turntable</h3>
-                  <button class="more-info-btn" onclick="window.location.href='info1.html'" data-i18n="gallery.more">More Info</button>
+                  <button class="more-info-btn" data-page="info1.html" data-i18n="gallery.more">More Info</button>
                 </div>
-              </div>
+            </div>
               
             <div class="gallery-item fade-in">
                 <img src="assets/image2.jpeg" alt="Turntable 2">
                 <div class="gallery-info">
                     <h3 data-i18n="gallery.item2">Luxury Display</h3>
-                    <button class="more-info-btn" onclick="window.location.href='info2.html'" data-i18n="gallery.more">More Info</button>
+                    <button class="more-info-btn" data-page="info2.html" data-i18n="gallery.more">More Info</button>
                 </div>
             </div>
             <div class="gallery-item fade-in">
                 <img src="assets/image3.jpeg" alt="Turntable 3">
                 <div class="gallery-info">
                     <h3 data-i18n="gallery.item3">Custom Platform</h3>
-                    <button class="more-info-btn" onclick="window.location.href='info3.html'" data-i18n="gallery.more">More Info</button>
+                    <button class="more-info-btn" data-page="info3.html" data-i18n="gallery.more">More Info</button>
                 </div>
             </div>
             <div class="gallery-item fade-in">
                 <img src="assets/image4.jpeg" alt="Turntable 4">
                 <div class="gallery-info">
                     <h3 data-i18n="gallery.item4">Automotive Art</h3>
-                    <button class="more-info-btn" onclick="window.location.href='info4.html'" data-i18n="gallery.more">More Info</button>
+                    <button class="more-info-btn" data-page="info4.html" data-i18n="gallery.more">More Info</button>
                 </div>
             </div>
             <div class="gallery-item fade-in">
                 <img src="assets/image5.jpeg" alt="Turntable 5">
                 <div class="gallery-info">
                     <h3 data-i18n="gallery.item5">Engineering Marvel</h3>
-                    <button class="more-info-btn" onclick="window.location.href='info5.html'" data-i18n="gallery.more">More Info</button>
+                    <button class="more-info-btn" data-page="info5.html" data-i18n="gallery.more">More Info</button>
                 </div>
             </div>
             <div class="gallery-item fade-in">
                 <img src="assets/image1.jpeg" alt="Turntable 6">
                 <div class="gallery-info">
                     <h3 data-i18n="gallery.item6">Perfect Rotation</h3>
-                    <button class="more-info-btn" onclick="window.location.href='info6.html'" data-i18n="gallery.more">More Info</button>
+                    <button class="more-info-btn" data-page="info6.html" data-i18n="gallery.more">More Info</button>
                 </div>
             </div>
         </div>
@@ -1099,7 +1121,6 @@
                 const value = translations[key];
                 if (value !== undefined) {
                     // If node contains inline HTML (like spans), we set innerHTML; otherwise textContent.
-                    // We make a simple heuristic: if translation contains '<', set innerHTML.
                     if (value.includes('<')) {
                         el.innerHTML = value;
                     } else {
@@ -1117,14 +1138,13 @@
                 }
             });
 
-            // Some elements require attribute updates (e.g., title tag)
+            // document title
             if (translations['hero.title']) {
                 document.title = translations['hero.title'] + ' | Saudi Turntables';
             }
 
-            // Optionally set direction-specific UI tweaks (e.g., arrow icons)
-            document.querySelectorAll('.fas.fa-arrow-right').forEach(icon => {
-                // flip arrow direction visually for Arabic
+            // Flip arrow icon direction for Arabic
+            document.querySelectorAll('.fas.fa-arrow-right, .fas.fa-arrow-left').forEach(icon => {
                 if (lang === 'ar') {
                     icon.classList.remove('fa-arrow-right');
                     icon.classList.add('fa-arrow-left');
@@ -1133,6 +1153,13 @@
                     icon.classList.add('fa-arrow-right');
                 }
             });
+
+            // small visual tweak: increase hero padding when Arabic to avoid cutting
+            if (lang === 'ar') {
+                document.querySelector('.hero').style.paddingBottom = '3rem';
+            } else {
+                document.querySelector('.hero').style.paddingBottom = '';
+            }
         }
 
         // Language switching logic with persistence
@@ -1193,11 +1220,43 @@
         });
 
         // contact form submit (prevent default for demo)
-        document.getElementById('contactForm').addEventListener('submit', function(e){
-            e.preventDefault();
-            const lang = document.documentElement.lang || 'en';
-            alert(lang === 'ar' ? 'تم استلام رسالتك! سيتواصل فريقنا معك قريباً.' : 'Message received! Our team will contact you shortly.');
-            this.reset();
+        const contactForm = document.getElementById('contactForm');
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e){
+                e.preventDefault();
+                const lang = document.documentElement.lang || 'en';
+                alert(lang === 'ar' ? 'تم استلام رسالتك! سيتواصل فريقنا معك قريباً.' : 'Message received! Our team will contact you shortly.');
+                this.reset();
+            });
+        }
+
+        // -------------------------
+        // More Info navigation: append current language to next page so it can use same locale
+        // -------------------------
+        function navigateWithLang(page) {
+            // page may be relative (info1.html). Build a URL relative to current location.
+            try {
+                const lang = document.documentElement.lang || localStorage.getItem('site_lang') || 'en';
+                const base = new URL(page, window.location.href);
+                // preserve existing query parameters on the destination, but ensure lang param is set
+                base.searchParams.set('lang', lang);
+                window.location.href = base.toString();
+            } catch (err) {
+                // fallback
+                const lang = document.documentElement.lang || localStorage.getItem('site_lang') || 'en';
+                const sep = page.includes('?') ? '&' : '?';
+                window.location.href = page + sep + 'lang=' + encodeURIComponent(lang);
+            }
+        }
+
+        // Attach listeners to "More Info" buttons
+        document.querySelectorAll('.more-info-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const page = btn.getAttribute('data-page');
+                if (page) {
+                    navigateWithLang(page);
+                }
+            });
         });
 
         // ensure language toolbar shows correct active state on load
