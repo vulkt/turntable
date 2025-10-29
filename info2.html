@@ -371,14 +371,12 @@
       }
     });
 
-    // Contact CTA: navigate back to homepage contact anchor preserving lang
-    document.getElementById('contactCta').addEventListener('click', () => {
-      const lang = document.documentElement.lang || 'en';
-      const contactUrl = new URL('/', window.location.origin);
-      contactUrl.hash = '#contact';
-      contactUrl.searchParams.set('lang', lang);
-      window.location.href = contactUrl.toString();
-    });
+    // ✅ CTA button: go to the Contact Us section on the index page
+document.getElementById('contactCta').addEventListener('click', () => {
+  const lang = document.documentElement.lang || 'en';
+  // Go to index.html and jump directly to the #contact section
+  window.location.href = `index.html?lang=${lang}#contact`;
+});
 
     // Ensure layout settles after fonts load (prevents clipping)
     window.addEventListener('load', () => {

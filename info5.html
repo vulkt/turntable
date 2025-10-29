@@ -357,17 +357,12 @@
       });
     }
 
-    // Contact CTA navigates back to homepage #contact preserving lang
-    const contactCta = document.getElementById('contactCta');
-    if (contactCta) {
-      contactCta.addEventListener('click', () => {
-        const lang = document.documentElement.lang || 'en';
-        const contactUrl = new URL('/', window.location.origin);
-        contactUrl.hash = '#contact';
-        contactUrl.searchParams.set('lang', lang);
-        window.location.href = contactUrl.toString();
-      });
-    }
+    // ✅ CTA button: go to the Contact Us section on the index page
+document.getElementById('contactCta').addEventListener('click', () => {
+  const lang = document.documentElement.lang || 'en';
+  // Go to index.html and jump directly to the #contact section
+  window.location.href = `index.html?lang=${lang}#contact`;
+});
 
     // Reflow after fonts load to avoid clipping issues with Arabic metrics
     window.addEventListener('load', () => {

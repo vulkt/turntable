@@ -6,7 +6,37 @@
     <title>Saudi Turntables | Precision Automotive Display</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Added Arabic font (Cairo) + existing fonts -->
-    <style>
+ 
+        <!-- Firebase SDK -->
+<script type="module">
+    // Import the necessary Firebase modules
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+  
+    // TODO: Replace with your Firebase project's config
+    const firebaseConfig = {
+    apiKey: "AIzaSyCWO7JdAMVsxqUfSZ1Hlwki_Hm7IGJR3rM",
+    authDomain: "turntable-df203.firebaseapp.com",
+    projectId: "turntable-df203",
+    storageBucket: "turntable-df203.firebasestorage.app",
+    messagingSenderId: "994359441807",
+    appId: "1:994359441807:web:503ffbbc2e0e2a69bdf3fa",
+    measurementId: "G-NP50XQJN79"
+  };
+  
+    // Initialize Firebase and Firestore
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+  
+    // Expose db to global scope so we can use it later in inline scripts
+    window.db = db;
+    window.addDoc = addDoc;
+    window.collection = collection;
+    window.serverTimestamp = serverTimestamp;
+  </script>
+  
+
+ <style>
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700;800&family=Cairo:wght@300;400;600;700&display=swap');
         
         :root {
@@ -1219,16 +1249,47 @@
             });
         });
 
-        // contact form submit (prevent default for demo)
-        const contactForm = document.getElementById('contactForm');
-        if (contactForm) {
-            contactForm.addEventListener('submit', function(e){
-                e.preventDefault();
-                const lang = document.documentElement.lang || 'en';
-                alert(lang === 'ar' ? 'تم استلام رسالتك! سيتواصل فريقنا معك قريباً.' : 'Message received! Our team will contact you shortly.');
-                this.reset();
-            });
-        }
+      // Contact form Firestore submit
+const contactForm = document.getElementById('contactForm');
+if (contactForm) {
+  contactForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const firstName = document.getElementById('firstName').value.trim();
+    const lastName = document.getElementById('lastName').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const message = document.getElementById('message').value.trim();
+    const lang = document.documentElement.lang || 'en';
+
+    if (!firstName || !lastName || !email || !message) {
+      alert(lang === 'ar' ? 'يرجى ملء جميع الحقول.' : 'Please fill in all fields.');
+      return;
+    }
+
+    try {
+      // Add message to Firestore collection "contactMessages"
+      await window.addDoc(window.collection(window.db, "contactMessages"), {
+        firstName,
+        lastName,
+        email,
+        message,
+        timestamp: window.serverTimestamp(),
+      });
+
+      alert(lang === 'ar'
+        ? 'تم إرسال رسالتك بنجاح! سيتواصل فريقنا معك قريباً.'
+        : 'Your message has been sent! Our team will contact you soon.');
+
+      contactForm.reset();
+    } catch (error) {
+      console.error("Error adding document: ", error);
+      alert(lang === 'ar'
+        ? 'حدث خطأ أثناء إرسال الرسالة. حاول مرة أخرى لاحقاً.'
+        : 'Error sending message. Please try again later.');
+    }
+  });
+}
+
 
         // -------------------------
         // More Info navigation: append current language to next page so it can use same locale

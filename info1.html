@@ -11,7 +11,7 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    /* Use system font for LTR and Cairo for Arabic via JS-set html[lang] attr */
+    /* Use Montserrat-like system font for LTR and Cairo for Arabic via JS-set html[lang] attr */
     html[lang="en"] body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; }
     html[lang="ar"] body { font-family: 'Cairo', system-ui, -apple-system, sans-serif; }
 
@@ -19,14 +19,14 @@
       background-color: #000;
       color: #fff;
       overflow-x: hidden;
-      line-height: 1.75; /* slightly larger to avoid clipping in Arabic */
+      line-height: 1.7; /* slightly larger to avoid clipping in Arabic */
     }
 
     /* ✅ Back Button */
     .back-button {
       position: fixed;
       top: 20px;
-      left: 20px;
+      left: 20px; /* flipped via CSS in RTL */
       padding: 0.6rem 1.4rem;
       font-size: 0.95rem;
       border-radius: 9999px;
@@ -43,8 +43,12 @@
       transform: scale(1.05);
       box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
     }
+
     /* When RTL, move back button to the right */
-    html[dir="rtl"] .back-button { left: auto; right: 20px; }
+    html[dir="rtl"] .back-button {
+      left: auto;
+      right: 20px;
+    }
 
     /* Hero Section (reduced chance of clipping) */
     .hero {
@@ -117,13 +121,11 @@
       transform: translateY(20px);
       animation: fadeInUp 0.6s ease-out 0.25s forwards;
     }
-    /* NOTE: product-title intentionally NOT translated; keep the name as-is */
     .product-title {
       font-size: clamp(1.75rem, 4vw, 2.5rem);
       font-weight: 400;
       color: #d4af37;
       margin-bottom: 1rem;
-      letter-spacing: 1px;
     }
     .product-price {
       font-size: clamp(1.25rem, 3vw, 1.5rem);
@@ -134,7 +136,7 @@
     .product-description {
       color: #a0a0a0;
       font-size: clamp(1.05rem, 2.4vw, 1.15rem);
-      line-height: 1.9;
+      line-height: 1.8;
       margin: 0 auto;
       max-width: 900px;
       text-align: center; /* ensure centered paragraphs */
@@ -196,21 +198,21 @@
   <!-- ✅ Back Button -->
   <button id="backBtn" class="back-button" data-i18n="back">← Back</button>
 
-  <!-- Hero Section (optional title area) -->
+  <!-- Hero Section -->
   <header class="hero" aria-hidden="true">
-    <div class="product-name-hero" id="productNameHero">INFINITY</div> <!-- keep name unchanged -->
+    <div class="product-name-hero" id="productNameHero" data-i18n="heroTitle">Star Maker</div>
   </header>
 
   <!-- Main Content -->
   <main class="container" id="mainContent" role="main">
     <!-- Product Image -->
     <div class="product-image-container">
-      <img src="assets/image2.jpeg" alt="Turntable" class="product-image" id="productImage" />
+      <img src="assets/image7.jpeg" alt="Turntable" class="product-image" id="productImage" />
     </div>
 
     <!-- Product Details -->
     <section class="product-details" aria-labelledby="productTitle">
-      <h1 id="productTitle" class="product-title">INFINITY</h1> <!-- DO NOT translate this name -->
+      <h1 id="productTitle" class="product-title" data-i18n="productTitle">Star Maker</h1>
       <div class="product-price" id="productPrice" data-i18n="price"></div>
 
       <div class="product-description" id="productDescription" data-i18n-html="descriptionHtml">
@@ -234,27 +236,22 @@
       en: {
         "title": "LuxeSpin — Precision Car Turntable",
         "back": "← Back",
+        "heroTitle": "Star Maker",
+        "productTitle": "Star Maker",
         "price": "",
         "descriptionHtml": `
           <p>
-            Experience the power and elegance of our premium flat turntable, engineered for
-            performance and style. With its sleek, shining black finish, this turntable isn’t just
-            built to impress—it’s built to handle over <strong>2500 kg</strong> with ease. Strong, stable,
-            and stunning — it’s the perfect blend of durability and modern design for any
-            professional setup.
+            This next-generation turntable redefines automotive presentation.
+            A hydraulically raised platform elevates up to 70 cm, offering dynamic display versatility — perfectly level with the floor when lowered for effortless car placement.
           </p>
           <p style="margin-top:1.25rem;">
-            Featuring four zones of precision lighting, the system enhances your vehicle’s
-            aesthetics with programmable illumination that adapts to the time of day for optimal
-            visual impact.
+            Featuring four zones of precision lighting, the system enhances your vehicle’s aesthetics with programmable illumination that adapts to the time of day for optimal visual impact.
           </p>
           <p style="margin-top:1.25rem;">
-            Integrated proximity sensors detect customer presence, activating smooth rotation only
-            when desired — a blend of intelligence and elegance.
+            Integrated proximity sensors detect customer presence, activating smooth rotation only when desired — a blend of intelligence and elegance.
           </p>
           <p style="margin-top:1.25rem;">
-            All functions are easily managed through the main control panel or directly from your
-            mobile device, putting total control at your fingertips.
+            All functions are easily managed through the main control panel or directly from your mobile device, putting total control at your fingertips.
           </p>
           <p style="margin-top:1.25rem; font-style:italic;">
             MHC — Engineered for perfection. Designed to impress.
@@ -263,21 +260,24 @@
         "cta": "CONTACT US"
       },
       ar: {
-        "title": "LuxeSpin — منصة دوران سيارات دقيقة",
+        "title": "لَكس سبين — منصة دوران سيارات دقيقة",
         "back": "رجوع ←",
+        "heroTitle": "Star Maker",
+        "productTitle": "Star Maker",
         "price": "",
         "descriptionHtml": `
           <p>
-            اختبر القوة والأناقة مع منصتنا المسطحة المميزة، المصممة لأداء راقٍ ومظهر جمالي جذاب. بلمسة نهائية سوداء أنيقة، هذه المنصة ليست مجرد منتج لفت الانتباه — بل قادرة على حمل أكثر من <strong>٢٥٠٠ كجم</strong> بثبات وسلاسة. قوية، مستقرة، ومبهرة — مزيج مثالي من المتانة والتصميم العصري لأي إعدادٍ احترافي.
+            هذه المنصة الدورانية من الجيل التالي تعيد تعريف عرض السيارات.
+            منصة هيدروليكية ترتفع حتى ٧٠ سم، مما يمنحك تعددية عرض ديناميكية — مستوية تمامًا مع الأرض عندما تُخفض لتسهيل وضع السيارة.
           </p>
           <p style="margin-top:1.25rem;">
-            تتميز بأربعة مناطق إضاءة دقيقة تعمل على إبراز جمال سيارتك مع إمكانية برمجتها لتتناسب مع وقت اليوم للحصول على أفضل تأثير بصري.
+            تتميز بأربعة مناطق إضاءة دقيقة، تعمل على إبراز جمال سيارتك بإضاءات قابلة للبرمجة تتكيف مع وقت اليوم للحصول على أفضل تأثير بصري.
           </p>
           <p style="margin-top:1.25rem;">
-            حساسات قرب مدمجة تكتشف وجود الزوار، وتفعّل الدوران السلس عند الحاجة فقط — مزيج من الذكاء والأناقة.
+            حساسات قرب مدمجة تكشف وجود الزوار، وتفعّل الدوران السلس عند الرغبة فقط — مزيج من الذكاء والأناقة.
           </p>
           <p style="margin-top:1.25rem;">
-            يمكن إدارة جميع الوظائف بسهولة عبر لوحة التحكم الرئيسية أو مباشرة من جهازك المحمول، لتحكم كامل في متناول يدك.
+            يتم التحكم بجميع الوظائف بسهولة عبر لوحة التحكم الرئيسية أو مباشرة من جهازك المحمول، لتحكم كامل في متناول يدك.
           </p>
           <p style="margin-top:1.25rem; font-style:italic;">
             MHC — مصممة بدقة. مصممة لإبهارك.
@@ -311,10 +311,9 @@
       document.documentElement.lang = lang;
       document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
 
-      // update title
+      // update text nodes
       document.title = t.title || document.title;
 
-      // data-i18n text content
       document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         if (t[key] !== undefined) {
@@ -330,11 +329,14 @@
         }
       });
 
-      // Keep product name (INFINITY) unchanged: ensure hero and title remain the original text
-      const productTitleEl = document.getElementById('productTitle');
-      const productHeroEl = document.getElementById('productNameHero');
-      // If you ever want to override the hero label for RTL vs LTR while keeping name, you could tweak only styling.
-      // We intentionally DO NOT change productTitleEl.textContent or productHeroEl.textContent to preserve the name.
+      // Visual tweaks for RTL/LTR
+      const backBtn = document.getElementById('backBtn');
+      if (lang === 'ar') {
+        // ensure back button text and placement are RTL-friendly (CSS already handles placement via html[dir])
+        backBtn.textContent = t.back || backBtn.textContent;
+      } else {
+        backBtn.textContent = t.back || backBtn.textContent;
+      }
 
       // CTA
       const cta = document.getElementById('contactCta');
@@ -343,15 +345,8 @@
       // Store preference so other pages (if localStorage used) keep it too
       try { localStorage.setItem('site_lang', lang); } catch (e) {}
 
-      // set lang attribute on main content for accessibility
+      // small accessibility improvement: set lang attr on main content if possible
       document.getElementById('mainContent').setAttribute('lang', lang);
-
-      // Minor layout tweak: ensure hero padding and line-height work well for Arabic
-      if (lang === 'ar') {
-        document.body.style.lineHeight = '1.85';
-      } else {
-        document.body.style.lineHeight = '1.75';
-      }
     }
 
     // When arriving from index, the home page appends ?lang=xx - we pick that up above.
@@ -360,6 +355,7 @@
 
     // Back button: go back preserving language if coming from index page via navigateWithLang
     document.getElementById('backBtn').addEventListener('click', () => {
+      // If history length > 1, go back. If not (direct open), navigate to index and pass lang param.
       if (window.history.length > 1) {
         window.history.back();
       } else {
@@ -371,19 +367,20 @@
       }
     });
 
-    // Contact CTA: navigate back to homepage contact anchor preserving lang
-    document.getElementById('contactCta').addEventListener('click', () => {
-      const lang = document.documentElement.lang || 'en';
-      const contactUrl = new URL('/', window.location.origin);
-      contactUrl.hash = '#contact';
-      contactUrl.searchParams.set('lang', lang);
-      window.location.href = contactUrl.toString();
-    });
+    // ✅ CTA button: go to the Contact Us section on the index page
+document.getElementById('contactCta').addEventListener('click', () => {
+  const lang = document.documentElement.lang || 'en';
+  // Go to index.html and jump directly to the #contact section
+  window.location.href = `index.html?lang=${lang}#contact`;
+});
 
-    // Ensure layout settles after fonts load (prevents clipping)
+
+    // Ensure images and text are fully visible on various fonts / languages:
+    // If the loaded font metrics cause overflow, give small delay to reflow container heights
     window.addEventListener('load', () => {
-      // small reflow to ensure measurements are correct for RTL fonts
-      requestAnimationFrame(() => { /* intentionally empty - reserved for future layout fixes */ });
+      requestAnimationFrame(() => {
+        // small no-op to allow layout to settle; kept for potential future adjustments
+      });
     });
   </script>
 </body>
