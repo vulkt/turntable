@@ -944,6 +944,34 @@
             <h2><span style="color: var(--gold);" data-i18n="contact.titleGold">Get In</span> <span data-i18n="contact.title">Touch</span></h2>
             <div class="divider"></div>
         </div>
+
+
+        <div class="contact-form fade-in">
+            <form id="contactForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName" data-i18n="form.firstNameLabel">First Name</label>
+                        <input type="text" id="firstName" class="form-control" placeholder="John" data-i18n-placeholder="form.firstNamePlaceholder">
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName" data-i18n="form.lastNameLabel">Last Name</label>
+                        <input type="text" id="lastName" class="form-control" placeholder="Doe" data-i18n-placeholder="form.lastNamePlaceholder">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email" data-i18n="form.emailLabel">Email</label>
+                    <input type="email" id="email" class="form-control" placeholder="john@example.com" data-i18n-placeholder="form.emailPlaceholder">
+                </div>
+                
+                <div class="form-group">
+                    <label for="message" data-i18n="form.messageLabel">Project Details</label>
+                    <textarea id="message" class="form-control" placeholder="Tell us about your project..." data-i18n-placeholder="form.messagePlaceholder"></textarea>
+                </div>
+                
+                <button type="submit" class="submit-btn" data-i18n="form.send">Send Message</button>
+            </form>
+        </div>
         
         <div class="contact-container">
             <div class="contact-info fade-in">
@@ -992,32 +1020,7 @@
                
             </div>
             
-            <div class="contact-form fade-in">
-                <form id="contactForm">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="firstName" data-i18n="form.firstNameLabel">First Name</label>
-                            <input type="text" id="firstName" class="form-control" placeholder="John" data-i18n-placeholder="form.firstNamePlaceholder">
-                        </div>
-                        <div class="form-group">
-                            <label for="lastName" data-i18n="form.lastNameLabel">Last Name</label>
-                            <input type="text" id="lastName" class="form-control" placeholder="Doe" data-i18n-placeholder="form.lastNamePlaceholder">
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="email" data-i18n="form.emailLabel">Email</label>
-                        <input type="email" id="email" class="form-control" placeholder="john@example.com" data-i18n-placeholder="form.emailPlaceholder">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="message" data-i18n="form.messageLabel">Project Details</label>
-                        <textarea id="message" class="form-control" placeholder="Tell us about your project..." data-i18n-placeholder="form.messagePlaceholder"></textarea>
-                    </div>
-                    
-                    <button type="submit" class="submit-btn" data-i18n="form.send">Send Message</button>
-                </form>
-            </div>
+           
         </div>
     </section>
 
