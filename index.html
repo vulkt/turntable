@@ -280,33 +280,35 @@
         }
         
         .btn-secondary {
-            background: transparent;
-            color: var(--gold);
-            padding: 1rem 2.5rem;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 1.1rem;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.3s ease;
-            border: 2px solid var(--gold);
-        }
-        
-        .btn-primary:hover, .btn-secondary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(212, 175, 55, 0.4);
-        }
-        
-        .btn-primary:hover {
-            background: var(--gold-light);
-        }
-        
-        .btn-secondary:hover {
-            background: var(--gold);
-            color: var(--black);
-        }
+  background: transparent;
+  color: var(--gold);
+  padding: clamp(0.6rem, 2vw, 1rem) clamp(1.2rem, 4vw, 2.5rem);
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  border: 2px solid var(--gold);
+}
+
+/* Hover Effects */
+.btn-primary:hover, .btn-secondary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 30px rgba(212, 175, 55, 0.4);
+}
+
+.btn-primary:hover {
+  background: var(--gold-light);
+}
+
+.btn-secondary:hover {
+  background: var(--gold);
+  color: var(--black);
+}
+
         
         /* Floating Elements */
         .floating-circle {
