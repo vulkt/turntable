@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saudi Turntable</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background-color: #000;
+            color: white;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(to right, #000, #1a1a1a);
+            padding: 24px;
+            border-bottom: 1px solid #333;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand h1 {
+            font-size: 24px;
+            font-weight: bold;
+            background: linear-gradient(to right, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .brand p {
+            color: #888;
+            font-size: 14px;
+            margin-top: 4px;
+        }
+
+        .connection-status {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .connected .status-dot {
+            background-color: #4ade80;
+        }
+
+        .disconnected .status-dot {
+            background-color: #ef4444;
+        }
+
+        .connect-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .connect-btn:hover {
+            background-color: #444;
+        }
+
+        .connect-btn i {
+            color: #888;
+            font-size: 20px;
+        }
+
+        .connected .connect-btn i {
+            color: #4ade80;
+        }
+
+        .main-content {
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .control-card {
+            background-color: #1a1a1a;
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid #333;
+        }
+
+        .control-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .control-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .control-title i {
+            color: #FFD700;
+        }
+
+        .toggle-switch {
+            width: 64px;
+            height: 32px;
+            background-color: #444;
+            border-radius: 16px;
+            position: relative;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .toggle-switch.active {
+            background-color: #FFD700;
+        }
+
+        .toggle-switch::before {
+            content: '';
+            position: absolute;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background-color: white;
+            top: 2px;
+            left: 2px;
+            transition: transform 0.3s;
+        }
+
+        .toggle-switch.active::before {
+            transform: translateX(32px);
+        }
+
+        .status-text {
+            color: #888;
+            font-size: 14px;
+        }
+
+        /* Speed Control */
+        .speed-display {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+
+        .speed-value {
+            background-color: #000;
+            border-radius: 16px;
+            padding: 16px 32px;
+            border: 1px solid #444;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .speed-value span:first-child {
+            font-size: 32px;
+            font-weight: bold;
+            color: #FFD700;
+        }
+
+        .speed-value span:last-child {
+            color: #888;
+            font-size: 16px;
+        }
+
+        .speed-slider-container {
+            position: relative;
+            height: 48px;
+            display: flex;
+            align-items: center;
+        }
+
+        .speed-track {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background-color: #444;
+            border-radius: 3px;
+        }
+
+        .speed-fill {
+            position: absolute;
+            left: 0;
+            height: 6px;
+            background-color: #FFD700;
+            border-radius: 3px;
+            transition: width 0.3s;
+        }
+
+        .speed-thumb {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background-color: #FFD700;
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            transform: translate(-50%, -50%);
+            top: 50%;
+            transition: left 0.3s;
+            z-index: 2;
+        }
+
+        .speed-input {
+            position: absolute;
+            width: 100%;
+            height: 48px;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .speed-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+        }
+
+        .speed-label {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .speed-label.active {
+            color: #FFD700;
+            font-weight: 600;
+        }
+
+        /* Direction Control */
+        .direction-controls {
+            display: flex;
+            gap: 16px;
+        }
+
+        .direction-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 12px;
+            background-color: #333;
+            color: white;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .direction-btn:hover {
+            background-color: #444;
+        }
+
+        .direction-btn.active {
+            background-color: #FFD700;
+            color: #000;
+        }
+
+        /* Color Palette */
+        .color-palette {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .color-option {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid #444;
+            cursor: pointer;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .color-option:hover {
+            transform: scale(1.1);
+        }
+
+        .color-option.active {
+            border-color: #FFD700;
+            transform: scale(1.1);
+        }
+
+        .pattern-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .pattern-btn {
+            padding: 8px 12px;
+            border-radius: 8px;
+            background-color: #333;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .pattern-btn:hover {
+            background-color: #444;
+        }
+
+        .pattern-btn.active {
+            background-color: #FFD700;
+            color: #000;
+        }
+
+        /* Time Inputs */
+        .time-input {
+            width: 100%;
+            background-color: #333;
+            border: 1px solid #444;
+            border-radius: 8px;
+            padding: 12px;
+            color: white;
+            font-size: 16px;
+        }
+
+        .time-input:focus {
+            outline: none;
+            border-color: #FFD700;
+        }
+
+        /* Disabled states */
+        .disabled {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .header {
+                padding: 16px;
+            }
+            
+            .main-content {
+                padding: 16px;
+                gap: 16px;
+            }
+            
+            .control-card {
+                padding: 16px;
+            }
+            
+            .brand h1 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-content">
+            <div class="brand">
+                <h1>Saudi Turntable</h1>
+                <p>Premium Control Panel</p>
+            </div>
+            <div class="connection-status disconnected" id="connectionStatus">
+                <div class="status-dot"></div>
+                <div class="connect-btn" id="connectBtn">
+                    <i class="fas fa-wifi"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Power Control -->
+        <div class="control-card">
+            <div class="control-header">
+                <div class="control-title">
+                    <i class="fas fa-power-off"></i>
+                    Power Control
+                </div>
+                <div class="toggle-switch" id="powerToggle"></div>
+            </div>
+            <p class="status-text" id="powerStatus">Turntable is off</p>
+        </div>
+
+        <!-- Speed Control -->
+        <div class="control-card">
+            <div class="control-header">
+                <div class="control-title">
+                    <i class="fas fa-sync-alt"></i>
+                    Rotation Speed
+                </div>
+            </div>
+            
+            <div class="speed-display">
+                <div class="speed-value">
+                    <span id="currentSpeed">1</span>
+                    <span>RPM</span>
+                </div>
+            </div>
+
+            <div class="speed-slider-container">
+                <div class="speed-track"></div>
+                <div class="speed-fill" id="speedFill"></div>
+                <div class="speed-thumb" id="speedThumb"></div>
+                <input type="range" min="1" max="10" value="1" class="speed-input" id="speedSlider">
+            </div>
+
+            <div class="speed-labels">
+                <span class="speed-label active" data-value="1">1</span>
+                <span class="speed-label" data-value="2">2</span>
+                <span class="speed-label" data-value="3">3</span>
+                <span class="speed-label" data-value="4">4</span>
+                <span class="speed-label" data-value="5">5</span>
+                <span class="speed-label" data-value="6">6</span>
+                <span class="speed-label" data-value="7">7</span>
+                <span class="speed-label" data-value="8">8</span>
+                <span class="speed-label" data-value="9">9</span>
+                <span class="speed-label" data-value="10">10</span>
+            </div>
+        </div>
+
+        <!-- Direction Control -->
+        <div class="control-card">
+            <div class="control-header">
+                <div class="control-title">
+                    <i class="fas fa-redo"></i>
+                    Rotation Direction
+                </div>
+            </div>
+            <div class="direction-controls">
+                <button class="direction-btn" id="ccwBtn">
+                    <i class="fas fa-undo"></i>
+                    CCW
+                </button>
+                <button class="direction-btn active" id="cwBtn">
+                    <i class="fas fa-redo"></i>
+                    CW
+                </button>
+            </div>
+        </div>
+
+        <!-- Proximity Sensor -->
+        <div class="control-card">
+            <div class="control-header">
+                <div class="control-title">
+                    <i class="fas fa-cog"></i>
+                    Proximity Sensor
+                </div>
+                <div class="toggle-switch active" id="sensorToggle"></div>
+            </div>
+            <p class="status-text" id="sensorStatus">Sensor active - detects nearby objects</p>
+        </div>
+
+        <!-- Lighting Control -->
+        <div class="control-card">
+            <div class="control-header">
+                <div class="control-title">
+                    <i class="fas fa-lightbulb"></i>
+                    Lighting Control
+                </div>
+            </div>
+            
+            <div>
+                <p class="status-text" style="margin-bottom: 8px;">Color</p>
+                <div class="color-palette">
+                    <div class="color-option active" style="background-color: #FFD700;" data-color="#FFD700"></div>
+                    <div class="color-option" style="background-color: #FFFFFF;" data-color="#FFFFFF"></div>
+                    <div class="color-option" style="background-color: #FF6B35;" data-color="#FF6B35"></div>
+                    <div class="color-option" style="background-color: #4ECDC4;" data-color="#4ECDC4"></div>
+                    <div class="color-option" style="background-color: #45B7D1;" data-color="#45B7D1"></div>
+                    <div class="color-option" style="background-color: #96CEB4;" data-color="#96CEB4"></div>
+                    <div class="color-option" style="background-color: #FFEAA7;" data-color="#FFEAA7"></div>
+                    <div class="color-option" style="background-color: #DDA0DD;" data-color="#DDA0DD"></div>
+                </div>
+            </div>
+
+            <div>
+                <p class="status-text" style="margin-bottom: 8px;">Pattern</p>
+                <div class="pattern-grid">
+                    <button class="pattern-btn active">Steady</button>
+                    <button class="pattern-btn">Pulse</button>
+                    <button class="pattern-btn">Fade</button>
+                    <button class="pattern-btn">Strobe</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Schedule Control -->
+        <div class="control-card">
+            <div class="control-header">
+                <div class="control-title">
+                    <i class="fas fa-clock"></i>
+                    Auto Schedule
+                </div>
+                <div class="toggle-switch" id="scheduleToggle"></div>
+            </div>
+            
+            <div id="scheduleInputs" style="display: none;">
+                <div style="margin-bottom: 12px;">
+                    <p class="status-text" style="margin-bottom: 4px;">Start Time</p>
+                    <input type="time" class="time-input" value="09:00">
+                </div>
+                <div>
+                    <p class="status-text" style="margin-bottom: 4px;">End Time</p>
+                    <input type="time" class="time-input" value="17:00">
+                </div>
+            </div>
+            
+            <p class="status-text" id="scheduleStatus">Automatic scheduling disabled</p>
+        </div>
+    </div>
+
+    <script>
+        // State management
+        let isConnected = false;
+        let isOn = false;
+        let speed = 1;
+        let direction = 'clockwise';
+        let proximitySensor = true;
+        let lightColor = '#FFD700';
+        let lightPattern = 'steady';
+        let scheduleEnabled = false;
+
+        // DOM Elements
+        const connectionStatus = document.getElementById('connectionStatus');
+        const connectBtn = document.getElementById('connectBtn');
+        const powerToggle = document.getElementById('powerToggle');
+        const powerStatus = document.getElementById('powerStatus');
+        const speedSlider = document.getElementById('speedSlider');
+        const currentSpeed = document.getElementById('currentSpeed');
+        const speedFill = document.getElementById('speedFill');
+        const speedThumb = document.getElementById('speedThumb');
+        const speedLabels = document.querySelectorAll('.speed-label');
+        const ccwBtn = document.getElementById('ccwBtn');
+        const cwBtn = document.getElementById('cwBtn');
+        const sensorToggle = document.getElementById('sensorToggle');
+        const sensorStatus = document.getElementById('sensorStatus');
+        const colorOptions = document.querySelectorAll('.color-option');
+        const patternBtns = document.querySelectorAll('.pattern-btn');
+        const scheduleToggle = document.getElementById('scheduleToggle');
+        const scheduleInputs = document.getElementById('scheduleInputs');
+        const scheduleStatus = document.getElementById('scheduleStatus');
+
+        // Update speed display and visual elements
+        function updateSpeedDisplay() {
+            currentSpeed.textContent = speed;
+            
+            // Update fill width (0% to 100%)
+            const fillPercentage = ((speed - 1) / 9) * 100;
+            speedFill.style.width = `${fillPercentage}%`;
+            
+            // Update thumb position
+            const thumbPosition = ((speed - 1) / 9) * 100;
+            speedThumb.style.left = `${thumbPosition}%`;
+            
+            // Update active label
+            speedLabels.forEach(label => {
+                const labelValue = parseInt(label.dataset.value);
+                if (labelValue === speed) {
+                    label.classList.add('active');
+                } else {
+                    label.classList.remove('active');
+                }
+            });
+        }
+
+        // Event Listeners
+        connectBtn.addEventListener('click', () => {
+            isConnected = !isConnected;
+            if (isConnected) {
+                connectionStatus.className = 'connection-status connected';
+                connectBtn.innerHTML = '<i class="fas fa-bluetooth-b"></i>';
+            } else {
+                connectionStatus.className = 'connection-status disconnected';
+                connectBtn.innerHTML = '<i class="fas fa-wifi"></i>';
+                isOn = false;
+                updatePowerDisplay();
+            }
+        });
+
+        powerToggle.addEventListener('click', () => {
+            if (!isConnected) return;
+            isOn = !isOn;
+            updatePowerDisplay();
+        });
+
+        function updatePowerDisplay() {
+            if (isOn) {
+                powerToggle.classList.add('active');
+                powerStatus.textContent = 'Turntable is running';
+            } else {
+                powerToggle.classList.remove('active');
+                powerStatus.textContent = 'Turntable is off';
+            }
+        }
+
+        speedSlider.addEventListener('input', () => {
+            if (!isConnected) return;
+            speed = parseInt(speedSlider.value);
+            updateSpeedDisplay();
+        });
+
+        ccwBtn.addEventListener('click', () => {
+            if (!isConnected) return;
+            direction = 'counterclockwise';
+            ccwBtn.classList.add('active');
+            cwBtn.classList.remove('active');
+        });
+
+        cwBtn.addEventListener('click', () => {
+            if (!isConnected) return;
+            direction = 'clockwise';
+            cwBtn.classList.add('active');
+            ccwBtn.classList.remove('active');
+        });
+
+        sensorToggle.addEventListener('click', () => {
+            if (!isConnected) return;
+            proximitySensor = !proximitySensor;
+            if (proximitySensor) {
+                sensorToggle.classList.add('active');
+                sensorStatus.textContent = 'Sensor active - detects nearby objects';
+            } else {
+                sensorToggle.classList.remove('active');
+                sensorStatus.textContent = 'Sensor deactivated';
+            }
+        });
+
+        colorOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                if (!isConnected) return;
+                lightColor = option.dataset.color;
+                colorOptions.forEach(opt => opt.classList.remove('active'));
+                option.classList.add('active');
+            });
+        });
+
+        patternBtns.forEach((btn, index) => {
+            btn.addEventListener('click', () => {
+                if (!isConnected) return;
+                const patterns = ['steady', 'pulse', 'fade', 'strobe'];
+                lightPattern = patterns[index];
+                patternBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
+        });
+
+        scheduleToggle.addEventListener('click', () => {
+            if (!isConnected) return;
+            scheduleEnabled = !scheduleEnabled;
+            if (scheduleEnabled) {
+                scheduleToggle.classList.add('active');
+                scheduleInputs.style.display = 'block';
+                scheduleStatus.textContent = 'Automatic scheduling enabled';
+            } else {
+                scheduleToggle.classList.remove('active');
+                scheduleInputs.style.display = 'none';
+                scheduleStatus.textContent = 'Automatic scheduling disabled';
+            }
+        });
+
+        // Initialize
+        updateSpeedDisplay();
+        updatePowerDisplay();
+    </script>
+</body>
+</html>
+
+
