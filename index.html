@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
+
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -791,6 +793,60 @@
                 font-size: 2rem;
             }
         }
+
+       /* ---------------- RTL Fixes for Arabic ---------------- */
+
+html[dir="rtl"] body {
+    direction: rtl;
+    text-align: right;
+}
+
+/* Contact section fixes */
+html[dir="rtl"] .contact-container {
+    direction: rtl;
+    text-align: right;
+}
+
+html[dir="rtl"] .contact-item {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: flex-start;
+    text-align: right;
+}
+
+html[dir="rtl"] .contact-text {
+    margin-right: 1rem;
+    margin-left: 0;
+    text-align: right;
+}
+
+html[dir="rtl"] .contact-form {
+    direction: rtl;
+    text-align: right;
+}
+
+html[dir="rtl"] .form-group label {
+    text-align: right;
+}
+
+html[dir="rtl"] .contact-info {
+    text-align: right;
+}
+
+/* Keep grid consistent */
+.contact-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+}
+
+@media (max-width: 768px) {
+    .contact-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+
     </style>
 </head>
 <body>
@@ -937,6 +993,20 @@
                 <h3 data-i18n="features.f4.title">Bespoke Solutions</h3>
                 <p data-i18n="features.f4.desc">Fully customizable platforms designed for your specific automotive masterpiece.</p>
             </div>
+
+            <div class="feature-card fade-in">
+                <div class="feature-icon">
+                    <i class="fas fa-tools"></i>
+                </div>
+                <h3 data-i18n="features.f5.title">A Trusted Name in Construction Excellence</h3>
+                <p data-i18n="features.f5.desc">
+                    Al Masar Al Hosary Contracting Est<br>
+                    CR: 4030488293<br>
+                    VAT: 311433427200003
+                </p>
+            </div>
+            
+
         </div>
     </section>
 
@@ -1017,6 +1087,9 @@
                         <h4 data-i18n="contact.locationTitle">Location</h4>
                         <p data-i18n="contact.location">Riyadh, Saudi Arabia</p>
                     </div>
+
+                    
+
                 </div>
                 
                
@@ -1061,6 +1134,9 @@
                 "features.f3.desc": "Tailored finishes and lighting to complement your vehicle's unique character.",
                 "features.f4.title": "Bespoke Solutions",
                 "features.f4.desc": "Fully customizable platforms designed for your specific automotive masterpiece.",
+                "features.f5.title": "A Trusted Name in Construction Excellence",
+"features.f5.desc": "Al Masar Al Hosary Contracting Est<br>CR: 4030488293<br>VAT: 311433427200003",
+
                 "contact.titleGold": "Get In",
                 "contact.title": "Touch",
                 "contact.heading": "Contact Information",
@@ -1110,6 +1186,9 @@
                 "features.f3.desc": "تشطيبات وإضاءات مصممة لتكمل طابع سيارتك الفريد.",
                 "features.f4.title": "حلول مصممة خصيصاً",
                 "features.f4.desc": "منصات قابلة للتخصيص بالكامل مصممة لتحفة سيارتك الخاصة.",
+                "features.f5.title": "اسم موثوق في مجال التميز الإنشائي",
+"features.f5.desc": "مؤسسة المسار الحسري للمقاولات<br>السجل التجاري: 4030488293<br>الرقم الضريبي: 311433427200003",
+
                 "contact.titleGold": "تواصل",
                 "contact.title": "معنا",
                 "contact.heading": "معلومات التواصل",
@@ -1201,7 +1280,9 @@
 
         // Initialize language from storage / default
         (function initLanguage() {
-            const saved = localStorage.getItem('site_lang') || (navigator.language && navigator.language.startsWith('ar') ? 'ar' : 'en');
+            const saved = localStorage.getItem('site_lang') || 'ar';
+
+
             applyTranslations(saved);
         })();
 
