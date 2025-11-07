@@ -76,7 +76,7 @@
         }
         
         h1, h2, h3, h4, h5, h6 {
-            font-family: 'Playfair Display', serif;
+           
             font-weight: 700;
         }
         
@@ -570,7 +570,7 @@
         .contact-container {
             max-width: 1200px;
             margin: 0 auto;
-            display: grid;
+     
             grid-template-columns: 1fr 1fr;
             gap: 4rem;
         }
@@ -587,13 +587,32 @@
             margin-bottom: 2rem;
             align-items: flex-start;
         }
+
+        /*
+          Use logical margin properties so spacing automatically flips between LTR/RTL.
+          .contact-text will have a start margin to separate it from the icon. In RTL that
+          start is on the right side, so the icon will appear visually on the right when
+          the container is row-reverse.
+        */
+        .contact-text {
+            margin-inline-start: 1rem; /* space between icon and text in normal flow */
+            margin-inline-end: 0;
+        }
         
         /* In RTL, flip contact item layout so icon stays visually on the "start" side */
         html[dir="rtl"] .contact-item {
             flex-direction: row-reverse;
-            text-align: right;
+            text-align: left;
         }
         
+        /* Ensure the contact-text spacing flips correctly in RTL */
+        html[dir="rtl"] .contact-text {
+            margin-inline-start: 0;
+            margin-inline-end: 1rem;
+            text-align: right;
+        }
+
+        /* Keep the icon a fixed-size circle */
         .contact-icon {
             width: 48px;
             height: 48px;
@@ -711,6 +730,91 @@
             transform: translateY(-2px);
             box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3);
         }
+
+
+  /* CONTACT ITEM BASE */
+.contact-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  position: relative; /* for absolute icon positioning */
+}
+
+/* ICON */
+.contact-item > .contact-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--gold);
+  color: var(--black);
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+/* LTR: icon on left */
+html[dir="ltr"] .contact-item {
+  flex-direction: row;
+}
+
+html[dir="ltr"] .contact-item > .contact-icon {
+  margin-right: 8px; /* small gap between icon and text */
+}
+
+/* RTL: icon on right */
+html[dir="rtl"] .contact-item {
+  flex-direction: row-reverse;
+}
+
+html[dir="rtl"] .contact-item > .contact-icon {
+  margin-left: 8px; /* small gap between icon and text */
+}
+
+/* CONTACT TEXT */
+.contact-item > .contact-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0;
+  color: var(--gray-300);
+  line-height: 1.4;
+}
+
+/* RTL text alignment */
+html[dir="rtl"] .contact-text {
+  text-align: right;
+  direction: rtl; /* text flows right-to-left */
+  align-items: flex-end;
+}
+
+/* LTR text alignment */
+html[dir="ltr"] .contact-text {
+  text-align: left;
+  align-items: flex-start;
+}
+
+/* Remove extra spacing inside */
+.contact-text h4,
+.contact-text p {
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Keep phone numbers LTR even in Arabic */
+.contact-text p[data-i18n^="contact.phone"],
+.contact-text p[data-i18n^="contact.phone1"],
+.contact-text p[data-i18n^="contact.phoneUS"],
+.contact-text p[data-i18n^="contact.phoneUK"],
+.contact-text p[data-i18n^="contact.phoneIT"] {
+  direction: ltr;
+  unicode-bidi: embed;
+  margin-top: 0.15rem;
+}
+
+
+
         
         /* Footer */
         footer {
@@ -796,57 +900,7 @@
             }
         }
 
-       /* ---------------- RTL Fixes for Arabic ---------------- */
-
-html[dir="rtl"] body {
-    direction: rtl;
-    text-align: right;
-}
-
-/* Contact section fixes */
-html[dir="rtl"] .contact-container {
-    direction: rtl;
-    text-align: right;
-}
-
-html[dir="rtl"] .contact-item {
-    display: flex;
-    flex-direction: row-reverse;
-    align-items: flex-start;
-    text-align: right;
-}
-
-html[dir="rtl"] .contact-text {
-    margin-right: 1rem;
-    margin-left: 0;
-    text-align: right;
-}
-
-html[dir="rtl"] .contact-form {
-    direction: rtl;
-    text-align: right;
-}
-
-html[dir="rtl"] .form-group label {
-    text-align: right;
-}
-
-html[dir="rtl"] .contact-info {
-    text-align: right;
-}
-
-/* Keep grid consistent */
-.contact-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-}
-
-@media (max-width: 768px) {
-    .contact-container {
-        grid-template-columns: 1fr;
-    }
-}
+       
 
 
     </style>
@@ -1009,6 +1063,18 @@ html[dir="rtl"] .contact-info {
             </div>
             
 
+            <div class="feature-card fade-in">
+                <div class="feature-icon">
+                    <i class="fas fa-file-alt"></i>
+                </div>
+                <h3 data-i18n="features.f6.title">Certified Contracts</h3>
+                <p data-i18n="features.f6.desc">
+                    The contracts are certified by the Saudi Chamber of Commerce.
+                </p>
+            </div>
+            
+            
+
         </div>
     </section>
 
@@ -1053,19 +1119,19 @@ html[dir="rtl"] .contact-info {
                 
               
                 <div class="contact-item">
-                    <div class="contact-icon">
+                    <div class="contact-icon" aria-hidden="true">
                         <i class="fas fa-phone"></i>
                     </div>
                     <div class="contact-text">
                         <h4 data-i18n="contact.phoneTitle1">UAE Phone</h4>
-                        <p data-i18n="contact.phone1">(+966) 500 567 018</p>
+                        <p data-i18n="contact.phone1">(+971) 566 278 283</p>
                     </div>
                 </div>
 
 
 
                 <div class="contact-item">
-                    <div class="contact-icon">
+                    <div class="contact-icon" aria-hidden="true">
                         <i class="fas fa-phone"></i>
                     </div>
                     <div class="contact-text">
@@ -1074,11 +1140,43 @@ html[dir="rtl"] .contact-info {
                     </div>
                 </div>
 
+                <!-- United States -->
+                <div class="contact-item">
+                    <div class="contact-icon" aria-hidden="true">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <div class="contact-text">
+                        <h4 data-i18n="contact.phoneTitleUS">United States Phone</h4>
+                        <p data-i18n="contact.phoneUS">(+1) 555 123 4567</p>
+                    </div>
+                </div>
+
+                <!-- United Kingdom -->
+                <div class="contact-item">
+                    <div class="contact-icon" aria-hidden="true">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <div class="contact-text">
+                        <h4 data-i18n="contact.phoneTitleUK">United Kingdom Phone</h4>
+                        <p data-i18n="contact.phoneUK">(+44) 20 7946 0958</p>
+                    </div>
+                </div>
+
+                <!-- Italy -->
+                <div class="contact-item">
+                    <div class="contact-icon" aria-hidden="true">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <div class="contact-text">
+                        <h4 data-i18n="contact.phoneTitleIT">Italy Phone</h4>
+                        <p data-i18n="contact.phoneIT">(+39) 02 1234 5678</p>
+                    </div>
+                </div>
               
             
                 
                 <div class="contact-item">
-                    <div class="contact-icon">
+                    <div class="contact-icon" aria-hidden="true">
                         <i class="fas fa-envelope"></i>
                     </div>
                     <div class="contact-text">
@@ -1088,7 +1186,7 @@ html[dir="rtl"] .contact-info {
                 </div>
 
                 <div class="contact-item">
-                    <div class="contact-icon">
+                    <div class="contact-icon" aria-hidden="true">
                         <i class="fas fa-envelope"></i>
                     </div>
                     <div class="contact-text">
@@ -1098,17 +1196,13 @@ html[dir="rtl"] .contact-info {
                 </div>
                 
                 <div class="contact-item">
-                    <div class="contact-icon">
+                    <div class="contact-icon" aria-hidden="true">
                         <i class="fas fa-map-marker-alt"></i>
                     </div>
                     <div class="contact-text">
                         <h4 data-i18n="contact.locationTitle">Location</h4>
                         <p data-i18n="contact.location">Riyadh, Saudi Arabia</p>
                     </div>
-
-
-                    
-
                 </div>
                 
                
@@ -1156,13 +1250,23 @@ html[dir="rtl"] .contact-info {
                 "features.f5.title": "A Trusted Name in Construction Excellence",
 "features.f5.desc": "Al Masar Al Hosary Contracting Est<br>CR: 4030488293<br>VAT: 311433427200003",
 
+
+"features.f6.title": "Certified Contracts",
+"features.f6.desc": "The contracts are certified by the Saudi Chamber of Commerce.",
+
                 "contact.titleGold": "Get In",
                 "contact.title": "Touch",
                 "contact.heading": "Contact Information",
-                "contact.phoneTitle": "Sudia Arabia Phone",
+                "contact.phoneTitle": "Saudi Arabia Phone",
                 "contact.phone": "(+966) 500 567 018",
                 "contact.phoneTitle1": "UAE Phone",
                 "contact.phone1": "(+971) 566 278 283",
+                "contact.phoneTitleUS": "United States Phone",
+                "contact.phoneUS": "(+1) 510 988-3132",
+                "contact.phoneTitleUK": "United Kingdom Phone",
+                "contact.phoneUK": "(+44) 7703 401168",
+                "contact.phoneTitleIT": "Italy Phone",
+                "contact.phoneIT": "(+39) 335 383 925",
                 "contact.emailTitle": "Email",
                 "contact.email": "info@SaudiTurntable.com",
                 "contact.salesTitle": "Sales Email",
@@ -1209,14 +1313,21 @@ html[dir="rtl"] .contact-info {
                 "features.f4.desc": "منصات قابلة للتخصيص بالكامل مصممة لتحفة سيارتك الخاصة.",
                 "features.f5.title": "اسم موثوق في مجال التميز الإنشائي",
 "features.f5.desc": "مؤسسة المسار الحصري للمقاولات<br>السجل التجاري: 4030488293<br>الرقم الضريبي: 311433427200003",
-
+"features.f6.title": "عقود معتمدة",
+"features.f6.desc": "جميع العقود معتمدة من غرفة التجارة السعودية.",
                 "contact.titleGold": "تواصل",
                 "contact.title": "معنا",
                 "contact.heading": "معلومات التواصل",
                 "contact.phoneTitle": "الهاتف السعودي",
-                "contact.phone": " 018 567 500 (966+)",
+                "contact.phone": "(+966) 500 567 018",
                 "contact.phoneTitle1": "الهاتف الإماراتي",
-                "contact.phone1": " 283 278 566 (971+)",
+                "contact.phone1": "(+971) 566 278 283",
+                "contact.phoneTitleUS": "الهاتف في الولايات المتحدة",
+                "contact.phoneUS": "(+1) 510 988-3132",
+                "contact.phoneTitleUK": "الهاتف في المملكة المتحدة",
+                "contact.phoneUK": "(+44) 7703 401168",
+                "contact.phoneTitleIT": "الهاتف في إيطاليا",
+                "contact.phoneIT": "(+39) 02 1234 5678",
                 "contact.emailTitle": "البريد الإلكتروني",
                 "contact.email": "info@SaudiTurntable.com",
                 "contact.salesTitle": "بريد المبيعات",
