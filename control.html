@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Saudi Turntable</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <style>
         * {
             margin: 0;
@@ -19,21 +23,54 @@
             min-height: 100vh;
         }
 
+        body.arabic {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            direction: rtl;
+        }
+
         .header {
             background: linear-gradient(to right, #000, #1a1a1a);
-            padding: 24px;
+            padding: 24px 16px;
             border-bottom: 1px solid #333;
+            position: relative;
+        }
+
+        body.arabic .header {
+            background: linear-gradient(to left, #000, #1a1a1a);
         }
 
         .header-content {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
+            position: relative;
+        }
+
+        .language-toggle {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #333;
+            border: none;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 16px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background-color 0.2s;
+            z-index: 10;
+        }
+
+        .language-toggle:hover {
+            background-color: #444;
         }
 
         .brand {
             display: flex;
             flex-direction: column;
+            align-items: center;
+            text-align: center;
         }
 
         .brand h1 {
@@ -52,14 +89,19 @@
         }
 
         .connection-status {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 8px;
+            z-index: 10;
         }
 
         .status-dot {
-            width: 12px;
-            height: 12px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
         }
 
@@ -71,28 +113,13 @@
             background-color: #ef4444;
         }
 
-        .connect-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: #333;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-
-        .connect-btn:hover {
-            background-color: #444;
-        }
-
-        .connect-btn i {
+        .wifi-icon {
+            font-size: 18px;
             color: #888;
-            font-size: 20px;
+            transition: color 0.3s;
         }
 
-        .connected .connect-btn i {
+        .connected .wifi-icon {
             color: #4ade80;
         }
 
@@ -117,12 +144,20 @@
             margin-bottom: 16px;
         }
 
+        body.arabic .control-header {
+            flex-direction: row-reverse;
+        }
+
         .control-title {
             display: flex;
             align-items: center;
             gap: 8px;
             font-size: 18px;
             font-weight: 600;
+        }
+
+        body.arabic .control-title {
+            flex-direction: row-reverse;
         }
 
         .control-title i {
@@ -137,6 +172,10 @@
             position: relative;
             cursor: pointer;
             transition: background-color 0.3s;
+        }
+
+        body.arabic .toggle-switch {
+            transform: scaleX(-1);
         }
 
         .toggle-switch.active {
@@ -169,6 +208,10 @@
             display: flex;
             justify-content: center;
             margin-bottom: 24px;
+        }
+
+        body.arabic .speed-display {
+            justify-content: center;
         }
 
         .speed-value {
@@ -209,6 +252,11 @@
             border-radius: 3px;
         }
 
+        body.arabic .speed-track {
+            right: auto;
+            left: 0;
+        }
+
         .speed-fill {
             position: absolute;
             left: 0;
@@ -216,6 +264,11 @@
             background-color: #FFD700;
             border-radius: 3px;
             transition: width 0.3s;
+        }
+
+        body.arabic .speed-fill {
+            left: auto;
+            right: 0;
         }
 
         .speed-thumb {
@@ -231,6 +284,10 @@
             z-index: 2;
         }
 
+        body.arabic .speed-thumb {
+            transform: translate(50%, -50%);
+        }
+
         .speed-input {
             position: absolute;
             width: 100%;
@@ -243,6 +300,10 @@
             display: flex;
             justify-content: space-between;
             margin-top: 8px;
+        }
+
+        body.arabic .speed-labels {
+            flex-direction: row-reverse;
         }
 
         .speed-label {
@@ -261,6 +322,10 @@
             gap: 16px;
         }
 
+        body.arabic .direction-controls {
+            flex-direction: row-reverse;
+        }
+
         .direction-btn {
             flex: 1;
             padding: 12px;
@@ -275,6 +340,10 @@
             justify-content: center;
             gap: 8px;
             transition: all 0.2s;
+        }
+
+        body.arabic .direction-btn {
+            flex-direction: row-reverse;
         }
 
         .direction-btn:hover {
@@ -292,6 +361,10 @@
             flex-wrap: wrap;
             gap: 8px;
             margin-bottom: 16px;
+        }
+
+        body.arabic .color-palette {
+            flex-direction: row-reverse;
         }
 
         .color-option {
@@ -316,6 +389,10 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 8px;
+        }
+
+        body.arabic .pattern-grid {
+            direction: ltr;
         }
 
         .pattern-btn {
@@ -350,21 +427,49 @@
             font-size: 16px;
         }
 
+        body.arabic .time-input {
+            direction: ltr;
+            text-align: left;
+        }
+
         .time-input:focus {
             outline: none;
             border-color: #FFD700;
         }
 
-        /* Disabled states */
-        .disabled {
-            opacity: 0.5;
-            pointer-events: none;
+        /* Loading Indicator */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            display: none;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #333;
+            border-top: 4px solid #FFD700;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         /* Responsive */
         @media (max-width: 480px) {
             .header {
-                padding: 16px;
+                padding: 16px 12px;
             }
             
             .main-content {
@@ -379,23 +484,37 @@
             .brand h1 {
                 font-size: 20px;
             }
+            
+            .language-toggle {
+                left: 12px;
+                padding: 5px 10px;
+                font-size: 11px;
+            }
+            
+            .connection-status {
+                right: 12px;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Loading Indicator -->
+    <div class="loading" id="loadingIndicator">
+        <div class="loading-spinner"></div>
+    </div>
+
     <!-- Header -->
     <div class="header">
+        <button class="language-toggle" id="languageToggle">العربية</button>
         <div class="header-content">
             <div class="brand">
                 <h1>Saudi Turntable</h1>
                 <p>Premium Control Panel</p>
             </div>
-            <div class="connection-status disconnected" id="connectionStatus">
-                <div class="status-dot"></div>
-                <div class="connect-btn" id="connectBtn">
-                    <i class="fas fa-wifi"></i>
-                </div>
-            </div>
+        </div>
+        <div class="connection-status disconnected" id="connectionStatus">
+            <div class="status-dot"></div>
+            <i class="fas fa-wifi wifi-icon" id="wifiIcon"></i>
         </div>
     </div>
 
@@ -406,7 +525,7 @@
             <div class="control-header">
                 <div class="control-title">
                     <i class="fas fa-power-off"></i>
-                    Power Control
+                    <span id="powerControlTitle">Power Control</span>
                 </div>
                 <div class="toggle-switch" id="powerToggle"></div>
             </div>
@@ -418,14 +537,14 @@
             <div class="control-header">
                 <div class="control-title">
                     <i class="fas fa-sync-alt"></i>
-                    Rotation Speed
+                    <span id="speedControlTitle">Rotation Speed</span>
                 </div>
             </div>
             
             <div class="speed-display">
                 <div class="speed-value">
                     <span id="currentSpeed">1</span>
-                    <span>RPM</span>
+                    <span id="rpmText">RPM</span>
                 </div>
             </div>
 
@@ -455,17 +574,17 @@
             <div class="control-header">
                 <div class="control-title">
                     <i class="fas fa-redo"></i>
-                    Rotation Direction
+                    <span id="directionControlTitle">Rotation Direction</span>
                 </div>
             </div>
             <div class="direction-controls">
                 <button class="direction-btn" id="ccwBtn">
                     <i class="fas fa-undo"></i>
-                    CCW
+                    <span id="ccwText">CCW</span>
                 </button>
                 <button class="direction-btn active" id="cwBtn">
                     <i class="fas fa-redo"></i>
-                    CW
+                    <span id="cwText">CW</span>
                 </button>
             </div>
         </div>
@@ -475,7 +594,7 @@
             <div class="control-header">
                 <div class="control-title">
                     <i class="fas fa-cog"></i>
-                    Proximity Sensor
+                    <span id="sensorControlTitle">Proximity Sensor</span>
                 </div>
                 <div class="toggle-switch active" id="sensorToggle"></div>
             </div>
@@ -487,12 +606,12 @@
             <div class="control-header">
                 <div class="control-title">
                     <i class="fas fa-lightbulb"></i>
-                    Lighting Control
+                    <span id="lightingControlTitle">Lighting Control</span>
                 </div>
             </div>
             
             <div>
-                <p class="status-text" style="margin-bottom: 8px;">Color</p>
+                <p class="status-text" id="colorText">Color</p>
                 <div class="color-palette">
                     <div class="color-option active" style="background-color: #FFD700;" data-color="#FFD700"></div>
                     <div class="color-option" style="background-color: #FFFFFF;" data-color="#FFFFFF"></div>
@@ -506,12 +625,12 @@
             </div>
 
             <div>
-                <p class="status-text" style="margin-bottom: 8px;">Pattern</p>
+                <p class="status-text" id="patternText">Pattern</p>
                 <div class="pattern-grid">
-                    <button class="pattern-btn active">Steady</button>
-                    <button class="pattern-btn">Pulse</button>
-                    <button class="pattern-btn">Fade</button>
-                    <button class="pattern-btn">Strobe</button>
+                    <button class="pattern-btn active" id="steadyBtn">Steady</button>
+                    <button class="pattern-btn" id="pulseBtn">Pulse</button>
+                    <button class="pattern-btn" id="fadeBtn">Fade</button>
+                    <button class="pattern-btn" id="strobeBtn">Strobe</button>
                 </div>
             </div>
         </div>
@@ -521,18 +640,18 @@
             <div class="control-header">
                 <div class="control-title">
                     <i class="fas fa-clock"></i>
-                    Auto Schedule
+                    <span id="scheduleControlTitle">Auto Schedule</span>
                 </div>
                 <div class="toggle-switch" id="scheduleToggle"></div>
             </div>
             
             <div id="scheduleInputs" style="display: none;">
                 <div style="margin-bottom: 12px;">
-                    <p class="status-text" style="margin-bottom: 4px;">Start Time</p>
+                    <p class="status-text" id="startTimeText">Start Time</p>
                     <input type="time" class="time-input" value="09:00">
                 </div>
                 <div>
-                    <p class="status-text" style="margin-bottom: 4px;">End Time</p>
+                    <p class="status-text" id="endTimeText">End Time</p>
                     <input type="time" class="time-input" value="17:00">
                 </div>
             </div>
@@ -542,159 +661,571 @@
     </div>
 
     <script>
-        // State management
-        let isConnected = false;
-        let isOn = false;
-        let speed = 1;
-        let direction = 'clockwise';
-        let proximitySensor = true;
-        let lightColor = '#FFD700';
-        let lightPattern = 'steady';
-        let scheduleEnabled = false;
+// ======================
+// FIREBASE CONFIGURATION
+// ======================
+const firebaseConfig = {
+    apiKey: "AIzaSyCWO7JdAMVsxqUfSZ1Hlwki_Hm7IGJR3rM",
+    authDomain: "turntable-df203.firebaseapp.com",
+    projectId: "turntable-df203",
+    storageBucket: "turntable-df203.firebasestorage.app",
+    messagingSenderId: "994359441807",
+    appId: "1:994359441807:web:503ffbbc2e0e2a69bdf3fa",
+    measurementId: "G-NP50XQJN79"
+};
 
-        // DOM Elements
-        const connectionStatus = document.getElementById('connectionStatus');
-        const connectBtn = document.getElementById('connectBtn');
-        const powerToggle = document.getElementById('powerToggle');
-        const powerStatus = document.getElementById('powerStatus');
-        const speedSlider = document.getElementById('speedSlider');
-        const currentSpeed = document.getElementById('currentSpeed');
-        const speedFill = document.getElementById('speedFill');
-        const speedThumb = document.getElementById('speedThumb');
-        const speedLabels = document.querySelectorAll('.speed-label');
-        const ccwBtn = document.getElementById('ccwBtn');
-        const cwBtn = document.getElementById('cwBtn');
-        const sensorToggle = document.getElementById('sensorToggle');
-        const sensorStatus = document.getElementById('sensorStatus');
-        const colorOptions = document.querySelectorAll('.color-option');
-        const patternBtns = document.querySelectorAll('.pattern-btn');
-        const scheduleToggle = document.getElementById('scheduleToggle');
-        const scheduleInputs = document.getElementById('scheduleInputs');
-        const scheduleStatus = document.getElementById('scheduleStatus');
+// Initialize Firebase
+let firebaseApp = null;
+let db = null;
+let auth = null;
+let isFirebaseInitialized = false;
+let userDocRef = null;
 
-        // Update speed display and visual elements
-        function updateSpeedDisplay() {
-            currentSpeed.textContent = speed;
-            
-            // Update fill width (0% to 100%)
-            const fillPercentage = ((speed - 1) / 9) * 100;
-            speedFill.style.width = `${fillPercentage}%`;
-            
-            // Update thumb position
-            const thumbPosition = ((speed - 1) / 9) * 100;
-            speedThumb.style.left = `${thumbPosition}%`;
-            
-            // Update active label
-            speedLabels.forEach(label => {
-                const labelValue = parseInt(label.dataset.value);
-                if (labelValue === speed) {
-                    label.classList.add('active');
-                } else {
-                    label.classList.remove('active');
-                }
+try {
+    firebaseApp = firebase.initializeApp(firebaseConfig);
+    db = firebase.firestore();
+    auth = firebase.auth();
+    isFirebaseInitialized = true;
+    console.log("Firebase initialized successfully");
+} catch (error) {
+    console.error("Firebase initialization error:", error);
+}
+
+// ======================
+// TRANSLATION DATA
+// ======================
+const translations = {
+    en: {
+        powerControlTitle: "Power Control",
+        speedControlTitle: "Rotation Speed",
+        directionControlTitle: "Rotation Direction",
+        sensorControlTitle: "Proximity Sensor",
+        lightingControlTitle: "Lighting Control",
+        colorText: "Color",
+        patternText: "Pattern",
+        scheduleControlTitle: "Auto Schedule",
+        startTimeText: "Start Time",
+        endTimeText: "End Time",
+        powerStatusOn: "Turntable is running",
+        powerStatusOff: "Turntable is off",
+        sensorStatusOn: "Sensor active - detects nearby objects",
+        sensorStatusOff: "Sensor deactivated",
+        scheduleStatusOn: "Automatic scheduling enabled",
+        scheduleStatusOff: "Automatic scheduling disabled",
+        ccwText: "CCW",
+        cwText: "CW",
+        steady: "Steady",
+        pulse: "Pulse",
+        fade: "Fade",
+        strobe: "Strobe",
+        languageToggle: "العربية"
+    },
+    ar: {
+        powerControlTitle: "التحكم بالطاقة",
+        speedControlTitle: "سرعة الدوران",
+        directionControlTitle: "اتجاه الدوران",
+        sensorControlTitle: "مستشعر القرب",
+        lightingControlTitle: "التحكم بالإضاءة",
+        colorText: "اللون",
+        patternText: "النمط",
+        scheduleControlTitle: "الجدولة التلقائية",
+        startTimeText: "وقت البدء",
+        endTimeText: "وقت الانتهاء",
+        powerStatusOn: "الطبق الدوار قيد التشغيل",
+        powerStatusOff: "الطبق الدوار متوقف",
+        sensorStatusOn: "المستشعر نشط - يكتشف الأجسام القريبة",
+        sensorStatusOff: "المستشعر معطل",
+        scheduleStatusOn: "الجدولة التلقائية مفعلة",
+        scheduleStatusOff: "الجدولة التلقائية معطلة",
+        ccwText: "عكس عقارب الساعة",
+        cwText: "مع عقارب الساعة",
+        steady: "ثابت",
+        pulse: "نبض",
+        fade: "تلاشي",
+        strobe: "وميض",
+        languageToggle: "English"
+    }
+};
+
+// ======================
+// STATE MANAGEMENT
+// ======================
+let isConnected = false;
+let isOn = false;
+let speed = 1;
+let direction = 'clockwise';
+let proximitySensor = true;
+let lightColor = '#FFD700';
+let lightPattern = 'steady';
+let scheduleEnabled = false;
+let scheduleStart = '09:00';
+let scheduleEnd = '17:00';
+let currentLanguage = 'en';
+
+// ======================
+// DOM ELEMENTS
+// ======================
+const loadingIndicator = document.getElementById('loadingIndicator');
+const languageToggle = document.getElementById('languageToggle');
+const connectionStatus = document.getElementById('connectionStatus');
+const wifiIcon = document.getElementById('wifiIcon');
+const powerToggle = document.getElementById('powerToggle');
+const powerStatus = document.getElementById('powerStatus');
+const speedSlider = document.getElementById('speedSlider');
+const currentSpeed = document.getElementById('currentSpeed');
+const speedFill = document.getElementById('speedFill');
+const speedThumb = document.getElementById('speedThumb');
+const speedLabels = document.querySelectorAll('.speed-label');
+const ccwBtn = document.getElementById('ccwBtn');
+const cwBtn = document.getElementById('cwBtn');
+const sensorToggle = document.getElementById('sensorToggle');
+const sensorStatus = document.getElementById('sensorStatus');
+const colorOptions = document.querySelectorAll('.color-option');
+const steadyBtn = document.getElementById('steadyBtn');
+const pulseBtn = document.getElementById('pulseBtn');
+const fadeBtn = document.getElementById('fadeBtn');
+const strobeBtn = document.getElementById('strobeBtn');
+const scheduleToggle = document.getElementById('scheduleToggle');
+const scheduleInputs = document.getElementById('scheduleInputs');
+const scheduleStatus = document.getElementById('scheduleStatus');
+const startTimeInput = document.getElementById('startTime');
+const endTimeInput = document.getElementById('endTime');
+
+// ======================
+// TRANSLATION ELEMENTS
+// ======================
+const translationElements = {
+    powerControlTitle: document.getElementById('powerControlTitle'),
+    speedControlTitle: document.getElementById('speedControlTitle'),
+    directionControlTitle: document.getElementById('directionControlTitle'),
+    sensorControlTitle: document.getElementById('sensorControlTitle'),
+    lightingControlTitle: document.getElementById('lightingControlTitle'),
+    colorText: document.getElementById('colorText'),
+    patternText: document.getElementById('patternText'),
+    scheduleControlTitle: document.getElementById('scheduleControlTitle'),
+    startTimeText: document.getElementById('startTimeText'),
+    endTimeText: document.getElementById('endTimeText'),
+    ccwText: document.getElementById('ccwText'),
+    cwText: document.getElementById('cwText')
+};
+
+// ======================
+// FIREBASE FUNCTIONS
+// ======================
+async function initializeUserDocument() {
+    if (!isFirebaseInitialized) return;
+
+    try {
+        showLoading(true);
+
+        const userId = "anonymous_jfufzoqx8";
+        userDocRef = db.collection('turntable_settings').doc(userId);
+
+        const docSnapshot = await userDocRef.get();
+
+        if (!docSnapshot.exists) {
+            console.log("Creating new settings document…");
+
+            await userDocRef.set({
+                userId,
+                isConnected: false,
+                isOn: false,
+                speed: 1,
+                direction: "clockwise",
+                proximitySensor: true,
+                lightColor: "#FFD700",
+                lightPattern: "steady",
+                scheduleEnabled: false,
+                scheduleStart: "09:00",
+                scheduleEnd: "17:00",
+                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
             });
+
+        } else {
+            console.log("Loaded existing settings…");
+
+            const data = docSnapshot.data();
+
+            // READ and apply values from Firestore into the UI
+            isConnected = data.isConnected ?? isConnected;
+            isOn = data.isOn ?? isOn;
+            speed = data.speed ?? speed;
+            direction = data.direction ?? direction;
+            proximitySensor = data.proximitySensor ?? proximitySensor;
+            lightColor = data.lightColor ?? lightColor;
+            lightPattern = data.lightPattern ?? lightPattern;
+            scheduleEnabled = data.scheduleEnabled ?? scheduleEnabled;
+            scheduleStart = data.scheduleStart ?? scheduleStart;
+            scheduleEnd = data.scheduleEnd ?? scheduleEnd;
+
+            // Update UI based on Firestore values
+            updateAllUI();
         }
 
-        // Event Listeners
-        connectBtn.addEventListener('click', () => {
-            isConnected = !isConnected;
-            if (isConnected) {
-                connectionStatus.className = 'connection-status connected';
-                connectBtn.innerHTML = '<i class="fas fa-bluetooth-b"></i>';
-            } else {
-                connectionStatus.className = 'connection-status disconnected';
-                connectBtn.innerHTML = '<i class="fas fa-wifi"></i>';
-                isOn = false;
-                updatePowerDisplay();
-            }
-        });
+    } catch (error) {
+        console.error("Error initializing user document:", error);
+    } finally {
+        showLoading(false);
+    }
+}
 
-        powerToggle.addEventListener('click', () => {
-            if (!isConnected) return;
-            isOn = !isOn;
-            updatePowerDisplay();
-        });
 
-        function updatePowerDisplay() {
-            if (isOn) {
-                powerToggle.classList.add('active');
-                powerStatus.textContent = 'Turntable is running';
-            } else {
-                powerToggle.classList.remove('active');
-                powerStatus.textContent = 'Turntable is off';
-            }
+async function updateFirestoreSettings(updates) {
+    if (!isFirebaseInitialized || !userDocRef) {
+        console.log("Firebase not ready, skipping update");
+        return;
+    }
+
+    try {
+        const updateData = {
+            ...updates,
+            lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+        };
+
+        await userDocRef.set(updateData, { merge: true });  // <-- FIX
+        console.log("Settings updated:", Object.keys(updateData));
+        
+    } catch (error) {
+        console.error("Error updating Firestore:", error);
+    }
+}
+
+
+function showLoading(show) {
+    if (loadingIndicator) {
+        loadingIndicator.style.display = show ? 'flex' : 'none';
+    }
+}
+
+// ======================
+// UI FUNCTIONS
+// ======================
+function updateTranslations() {
+    const t = translations[currentLanguage];
+    
+    Object.keys(translationElements).forEach(key => {
+        if (translationElements[key]) {
+            translationElements[key].textContent = t[key];
         }
+    });
+    
+    if (languageToggle) languageToggle.textContent = t.languageToggle;
+    if (powerStatus) powerStatus.textContent = isOn ? t.powerStatusOn : t.powerStatusOff;
+    if (sensorStatus) sensorStatus.textContent = proximitySensor ? t.sensorStatusOn : t.sensorStatusOff;
+    if (scheduleStatus) scheduleStatus.textContent = scheduleEnabled ? t.scheduleStatusOn : t.scheduleStatusOff;
+    
+    if (steadyBtn) steadyBtn.textContent = t.steady;
+    if (pulseBtn) pulseBtn.textContent = t.pulse;
+    if (fadeBtn) fadeBtn.textContent = t.fade;
+    if (strobeBtn) strobeBtn.textContent = t.strobe;
+    
+    if (currentLanguage === 'ar') {
+        document.body.classList.add('arabic');
+    } else {
+        document.body.classList.remove('arabic');
+    }
+}
 
-        speedSlider.addEventListener('input', () => {
-            if (!isConnected) return;
-            speed = parseInt(speedSlider.value);
-            updateSpeedDisplay();
-        });
+function updateSpeedDisplay() {
+    if (currentSpeed) currentSpeed.textContent = speed;
+    
+    let fillPercentage;
+    if (currentLanguage === 'ar') {
+        fillPercentage = (1 - ((speed - 1) / 9)) * 100;
+    } else {
+        fillPercentage = ((speed - 1) / 9) * 100;
+    }
+    if (speedFill) speedFill.style.width = `${fillPercentage}%`;
+    
+    let thumbPosition;
+    if (currentLanguage === 'ar') {
+        thumbPosition = (1 - ((speed - 1) / 9)) * 100;
+    } else {
+        thumbPosition = ((speed - 1) / 9) * 100;
+    }
+    if (speedThumb) speedThumb.style.left = `${thumbPosition}%`;
+    
+    speedLabels.forEach(label => {
+        const labelValue = parseInt(label.dataset.value);
+        if (labelValue === speed) {
+            label.classList.add('active');
+        } else {
+            label.classList.remove('active');
+        }
+    });
+    
+    if (speedSlider) speedSlider.value = speed;
+}
 
-        ccwBtn.addEventListener('click', () => {
-            if (!isConnected) return;
-            direction = 'counterclockwise';
-            ccwBtn.classList.add('active');
-            cwBtn.classList.remove('active');
-        });
+function updatePowerDisplay() {
+    if (!powerToggle || !powerStatus) return;
+    
+    if (isOn) {
+        powerToggle.classList.add('active');
+        powerStatus.textContent = translations[currentLanguage].powerStatusOn;
+    } else {
+        powerToggle.classList.remove('active');
+        powerStatus.textContent = translations[currentLanguage].powerStatusOff;
+    }
+}
 
-        cwBtn.addEventListener('click', () => {
-            if (!isConnected) return;
-            direction = 'clockwise';
-            cwBtn.classList.add('active');
-            ccwBtn.classList.remove('active');
-        });
-
-        sensorToggle.addEventListener('click', () => {
-            if (!isConnected) return;
-            proximitySensor = !proximitySensor;
-            if (proximitySensor) {
-                sensorToggle.classList.add('active');
-                sensorStatus.textContent = 'Sensor active - detects nearby objects';
-            } else {
-                sensorToggle.classList.remove('active');
-                sensorStatus.textContent = 'Sensor deactivated';
-            }
-        });
-
-        colorOptions.forEach(option => {
-            option.addEventListener('click', () => {
-                if (!isConnected) return;
-                lightColor = option.dataset.color;
-                colorOptions.forEach(opt => opt.classList.remove('active'));
-                option.classList.add('active');
-            });
-        });
-
-        patternBtns.forEach((btn, index) => {
-            btn.addEventListener('click', () => {
-                if (!isConnected) return;
-                const patterns = ['steady', 'pulse', 'fade', 'strobe'];
-                lightPattern = patterns[index];
-                patternBtns.forEach(b => b.classList.remove('active'));
+function updateAllUI() {
+    updateSpeedDisplay();
+    updatePowerDisplay();
+    updateTranslations();
+    
+    if (connectionStatus && wifiIcon) {
+        if (isConnected) {
+            connectionStatus.className = 'connection-status connected';
+            wifiIcon.className = 'fas fa-wifi wifi-icon';
+        } else {
+            connectionStatus.className = 'connection-status disconnected';
+            wifiIcon.className = 'fas fa-wifi wifi-icon';
+        }
+    }
+    
+    if (direction === 'clockwise') {
+        if (cwBtn) cwBtn.classList.add('active');
+        if (ccwBtn) ccwBtn.classList.remove('active');
+    } else {
+        if (ccwBtn) ccwBtn.classList.add('active');
+        if (cwBtn) cwBtn.classList.remove('active');
+    }
+    
+    if (sensorToggle) {
+        if (proximitySensor) {
+            sensorToggle.classList.add('active');
+        } else {
+            sensorToggle.classList.remove('active');
+        }
+    }
+    
+    colorOptions.forEach(opt => {
+        if (opt.dataset.color === lightColor) {
+            opt.classList.add('active');
+        } else {
+            opt.classList.remove('active');
+        }
+    });
+    
+    const patternButtons = [steadyBtn, pulseBtn, fadeBtn, strobeBtn];
+    const patterns = ['steady', 'pulse', 'fade', 'strobe'];
+    patternButtons.forEach((btn, index) => {
+        if (btn) {
+            if (patterns[index] === lightPattern) {
                 btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        }
+    });
+    
+    if (scheduleToggle && scheduleInputs) {
+        if (scheduleEnabled) {
+            scheduleToggle.classList.add('active');
+            scheduleInputs.style.display = 'block';
+        } else {
+            scheduleToggle.classList.remove('active');
+            scheduleInputs.style.display = 'none';
+        }
+    }
+    
+    if (startTimeInput) startTimeInput.value = scheduleStart;
+    if (endTimeInput) endTimeInput.value = scheduleEnd;
+}
+
+// ======================
+// EVENT HANDLERS
+// ======================
+if (wifiIcon) {
+    wifiIcon.addEventListener('click', () => {
+        isConnected = !isConnected;
+        if (isConnected) {
+            connectionStatus.className = 'connection-status connected';
+            wifiIcon.className = 'fas fa-wifi wifi-icon';
+        } else {
+            connectionStatus.className = 'connection-status disconnected';
+            wifiIcon.className = 'fas fa-wifi wifi-icon';
+            isOn = false;
+            updatePowerDisplay();
+        }
+        
+        updateFirestoreSettings({
+            isConnected: isConnected,
+            isOn: isOn
+        });
+    });
+}
+
+if (powerToggle) {
+    powerToggle.addEventListener('click', () => {
+        if (!isConnected) return;
+        isOn = !isOn;
+        updatePowerDisplay();
+        
+        updateFirestoreSettings({
+            isOn: isOn
+        });
+    });
+}
+
+if (speedSlider) {
+    speedSlider.addEventListener('input', () => {
+        if (!isConnected) return;
+        speed = parseInt(speedSlider.value);
+        updateSpeedDisplay();
+        
+        updateFirestoreSettings({
+            speed: speed
+        });
+    });
+}
+
+if (ccwBtn) {
+    ccwBtn.addEventListener('click', () => {
+        if (!isConnected) return;
+        direction = 'counterclockwise';
+        ccwBtn.classList.add('active');
+        if (cwBtn) cwBtn.classList.remove('active');
+        
+        updateFirestoreSettings({
+            direction: direction
+        });
+    });
+}
+
+if (cwBtn) {
+    cwBtn.addEventListener('click', () => {
+        if (!isConnected) return;
+        direction = 'clockwise';
+        cwBtn.classList.add('active');
+        if (ccwBtn) ccwBtn.classList.remove('active');
+        
+        updateFirestoreSettings({
+            direction: direction
+        });
+    });
+}
+
+if (sensorToggle) {
+    sensorToggle.addEventListener('click', () => {
+        if (!isConnected) return;
+        proximitySensor = !proximitySensor;
+        if (proximitySensor) {
+            sensorToggle.classList.add('active');
+            if (sensorStatus) sensorStatus.textContent = translations[currentLanguage].sensorStatusOn;
+        } else {
+            sensorToggle.classList.remove('active');
+            if (sensorStatus) sensorStatus.textContent = translations[currentLanguage].sensorStatusOff;
+        }
+        
+        updateFirestoreSettings({
+            proximitySensor: proximitySensor
+        });
+    });
+}
+
+colorOptions.forEach(option => {
+    option.addEventListener('click', () => {
+        if (!isConnected) return;
+        lightColor = option.dataset.color;
+        colorOptions.forEach(opt => opt.classList.remove('active'));
+        option.classList.add('active');
+        
+        updateFirestoreSettings({
+            lightColor: lightColor
+        });
+    });
+});
+
+const patternButtons = [steadyBtn, pulseBtn, fadeBtn, strobeBtn];
+const patterns = ['steady', 'pulse', 'fade', 'strobe'];
+
+patternButtons.forEach((btn, index) => {
+    if (btn) {
+        btn.addEventListener('click', () => {
+            if (!isConnected) return;
+            lightPattern = patterns[index];
+            patternButtons.forEach(b => {
+                if (b) b.classList.remove('active');
+            });
+            btn.classList.add('active');
+            
+            updateFirestoreSettings({
+                lightPattern: lightPattern
             });
         });
+    }
+});
 
-        scheduleToggle.addEventListener('click', () => {
-            if (!isConnected) return;
-            scheduleEnabled = !scheduleEnabled;
-            if (scheduleEnabled) {
-                scheduleToggle.classList.add('active');
-                scheduleInputs.style.display = 'block';
-                scheduleStatus.textContent = 'Automatic scheduling enabled';
-            } else {
-                scheduleToggle.classList.remove('active');
-                scheduleInputs.style.display = 'none';
-                scheduleStatus.textContent = 'Automatic scheduling disabled';
-            }
+if (scheduleToggle) {
+    scheduleToggle.addEventListener('click', () => {
+        if (!isConnected) return;
+        scheduleEnabled = !scheduleEnabled;
+        if (scheduleEnabled) {
+            scheduleToggle.classList.add('active');
+            if (scheduleInputs) scheduleInputs.style.display = 'block';
+            if (scheduleStatus) scheduleStatus.textContent = translations[currentLanguage].scheduleStatusOn;
+        } else {
+            scheduleToggle.classList.remove('active');
+            if (scheduleInputs) scheduleInputs.style.display = 'none';
+            if (scheduleStatus) scheduleStatus.textContent = translations[currentLanguage].scheduleStatusOff;
+        }
+        
+        updateFirestoreSettings({
+            scheduleEnabled: scheduleEnabled,
+            scheduleStart: scheduleStart,
+            scheduleEnd: scheduleEnd
         });
+    });
+}
 
-        // Initialize
-        updateSpeedDisplay();
-        updatePowerDisplay();
+if (startTimeInput) {
+    startTimeInput.addEventListener('change', () => {
+        scheduleStart = startTimeInput.value;
+        
+        updateFirestoreSettings({
+            scheduleStart: scheduleStart
+        });
+    });
+}
+
+if (endTimeInput) {
+    endTimeInput.addEventListener('change', () => {
+        scheduleEnd = endTimeInput.value;
+        
+        updateFirestoreSettings({
+            scheduleEnd: scheduleEnd
+        });
+    });
+}
+
+if (languageToggle) {
+    languageToggle.addEventListener('click', () => {
+        currentLanguage = currentLanguage === 'en' ? 'ar' : 'en';
+        updateTranslations();
+        
+        localStorage.setItem('appLanguage', currentLanguage);
+    });
+}
+
+// ======================
+// INITIALIZATION
+// ======================
+const savedLanguage = localStorage.getItem('appLanguage');
+if (savedLanguage && ['en', 'ar'].includes(savedLanguage)) {
+    currentLanguage = savedLanguage;
+}
+
+updateSpeedDisplay();
+updatePowerDisplay();
+updateTranslations();
+
+initializeUserDocument();
+
+console.log("Saudi Turntable app initialized");
     </script>
 </body>
 </html>
-
 
