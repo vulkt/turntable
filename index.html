@@ -1091,22 +1091,28 @@ html[dir="ltr"] .contact-text {
                 <div class="form-row">
                     <div class="form-group">
                         <label for="firstName" data-i18n="form.firstNameLabel">First Name</label>
-                        <input type="text" id="firstName" class="form-control" placeholder="John" data-i18n-placeholder="form.firstNamePlaceholder">
+                        <input type="text" id="firstName" class="form-control" placeholder="John" data-i18n-placeholder="form.firstNamePlaceholder" required>
                     </div>
                     <div class="form-group">
                         <label for="lastName" data-i18n="form.lastNameLabel">Last Name</label>
-                        <input type="text" id="lastName" class="form-control" placeholder="Doe" data-i18n-placeholder="form.lastNamePlaceholder">
+                        <input type="text" id="lastName" class="form-control" placeholder="Doe" data-i18n-placeholder="form.lastNamePlaceholder" required>
                     </div>
                 </div>
                 
-                <div class="form-group">
-                    <label for="email" data-i18n="form.emailLabel">Email</label>
-                    <input type="email" id="email" class="form-control" placeholder="john@example.com" data-i18n-placeholder="form.emailPlaceholder">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email" data-i18n="form.emailLabel">Email</label>
+                        <input type="email" id="email" class="form-control" placeholder="john@example.com" data-i18n-placeholder="form.emailPlaceholder" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone" data-i18n="form.phoneLabel">Phone Number</label>
+                        <input type="tel" id="phone" class="form-control" placeholder="+966 500 000 000" data-i18n-placeholder="form.phonePlaceholder" required>
+                    </div>
                 </div>
                 
                 <div class="form-group">
                     <label for="message" data-i18n="form.messageLabel">Project Details</label>
-                    <textarea id="message" class="form-control" placeholder="Tell us about your project..." data-i18n-placeholder="form.messagePlaceholder"></textarea>
+                    <textarea id="message" class="form-control" placeholder="Tell us about your project..." data-i18n-placeholder="form.messagePlaceholder" required></textarea>
                 </div>
                 
                 <button type="submit" class="submit-btn" data-i18n="form.send">Send Message</button>
@@ -1279,6 +1285,8 @@ html[dir="ltr"] .contact-text {
                 "form.lastNamePlaceholder": "Doe",
                 "form.emailLabel": "Email",
                 "form.emailPlaceholder": "john@example.com",
+                "form.phoneLabel": "Phone Number",
+                "form.phonePlaceholder": "+966 500 000 000",
                 "form.messageLabel": "Project Details",
                 "form.messagePlaceholder": "Tell us about your project...",
                 "form.send": "Send Message",
@@ -1340,6 +1348,8 @@ html[dir="ltr"] .contact-text {
                 "form.lastNamePlaceholder": "الاسم",
                 "form.emailLabel": "البريد الإلكتروني",
                 "form.emailPlaceholder": "example@domain.com",
+                "form.phoneLabel": "رقم الهاتف",
+                "form.phonePlaceholder": "+966 500 000 000",
                 "form.messageLabel": "تفاصيل المشروع",
                 "form.messagePlaceholder": "أخبرنا عن مشروعك...",
                 "form.send": "إرسال الرسالة",
@@ -1474,10 +1484,11 @@ if (contactForm) {
     const firstName = document.getElementById('firstName').value.trim();
     const lastName = document.getElementById('lastName').value.trim();
     const email = document.getElementById('email').value.trim();
+    const phone = document.getElementById('phone').value.trim();
     const message = document.getElementById('message').value.trim();
     const lang = document.documentElement.lang || 'en';
 
-    if (!firstName || !lastName || !email || !message) {
+    if (!firstName || !lastName || !email || !phone || !message) {
       alert(lang === 'ar' ? 'يرجى ملء جميع الحقول.' : 'Please fill in all fields.');
       return;
     }
@@ -1488,6 +1499,7 @@ if (contactForm) {
         firstName,
         lastName,
         email,
+        phone,
         message,
         timestamp: window.serverTimestamp(),
       });
