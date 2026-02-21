@@ -513,6 +513,161 @@
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
         }
+
+        /* Our Work Section - New */
+        .our-work {
+            background: var(--black);
+            position: relative;
+        }
+
+        .our-work::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 50%, rgba(212, 175, 55, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .work-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .work-card {
+            background: linear-gradient(145deg, var(--gray-800), var(--gray-900));
+            border: 1px solid var(--gray-700);
+            border-radius: 1.5rem;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .work-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--gold);
+            box-shadow: 0 20px 50px rgba(212, 175, 55, 0.2);
+        }
+
+        .work-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, transparent 0%, rgba(212, 175, 55, 0.05) 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+        }
+
+        .work-card:hover::after {
+            opacity: 1;
+        }
+
+        .work-image-container {
+            position: relative;
+            height: 300px;
+            overflow: hidden;
+        }
+
+        .work-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .work-card:hover .work-image-container img {
+            transform: scale(1.08);
+        }
+
+        .work-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(212, 175, 55, 0.95);
+            color: var(--black);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            z-index: 2;
+        }
+
+        html[dir="rtl"] .work-badge {
+            right: auto;
+            left: 1rem;
+        }
+
+        .work-content {
+            padding: 2rem;
+        }
+
+        .work-title {
+            font-size: 1.5rem;
+            color: var(--white);
+            margin-bottom: 0.75rem;
+            font-weight: 700;
+        }
+
+        .work-location {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--gold);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        html[dir="rtl"] .work-location {
+            flex-direction: row-reverse;
+        }
+
+        .work-description {
+            color: var(--gray-300);
+            line-height: 1.7;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .work-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--gray-700);
+        }
+
+        .work-stat {
+            text-align: center;
+        }
+
+        .work-stat-value {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 0.25rem;
+        }
+
+        .work-stat-label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--gray-300);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
         
         /* Features Section */
         .features-grid {
@@ -876,6 +1031,10 @@ html[dir="ltr"] .contact-text {
             .gallery-item img {
                 height: 240px;
             }
+
+            .work-grid {
+                grid-template-columns: 1fr;
+            }
         }
         
         @media (max-width: 480px) {
@@ -959,6 +1118,69 @@ html[dir="ltr"] .contact-text {
         </div>
     </section>
 
+     <!-- Our Work Section - NEW -->
+    <section class="section our-work" id="our-work">
+        <div class="section-title fade-in">
+            <h2><span style="color: var(--gold);" data-i18n="work.titleGold">Our</span> <span data-i18n="work.title">Work</span></h2>
+            <div class="divider"></div>
+        </div>
+        
+        <div class="work-grid">
+            <!-- Work Card 1 -->
+            <div class="work-card fade-in">
+                <div class="work-image-container">
+                    <img src="assets/image9.jpeg" alt="Luxury Showroom Installation">
+                    <div class="work-badge" data-i18n="work.completed">Completed</div>
+                </div>
+                <div class="work-content">
+                    <h3 class="work-title" data-i18n="work.project1.title">Bfoam Car Wash</h3>
+                    <div class="work-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span data-i18n="work.project1.location">Riyadh, Saudi Arabia</span>
+                    </div>
+                    <p class="work-description" data-i18n="work.project1.desc">A ground-level smart turntable platform manufactured from high-quality laser-cut steel, equipped with an intelligent control system that supports remote operation via mobile phone and a physical control panel.</p>
+                    <div class="work-stats">
+                        <div class="work-stat">
+                            <span class="work-stat-value">5m</span>
+                            <span class="work-stat-label" data-i18n="work.project1.stat1">Diameter</span>
+                        </div>
+                        <div class="work-stat">
+                            <span class="work-stat-value">3000KG</span>
+                            <span class="work-stat-label" data-i18n="work.project1.stat2">Load</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        
+            <!-- Work Card 3 -->
+            <div class="work-card fade-in">
+                <div class="work-image-container">
+                    <img src="assets/image8.jpeg" alt="Exhibition Center Project">
+                    <div class="work-badge" data-i18n="work.completed">Completed</div>
+                </div>
+                <div class="work-content">
+                    <h3 class="work-title" data-i18n="work.project3.title">New Zero Car Wash</h3>
+                    <div class="work-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span data-i18n="work.project3.location">Jeddah, Saudi Arabia</span>
+                    </div>
+                    <p class="work-description" data-i18n="work.project3.desc">An above-ground smart turntable platform raised 10 cm from floor level, constructed from high-quality laser-cut steel, and equipped with an intelligent control system that supports remote operation via mobile phone and a physical control panel.</p>
+                    <div class="work-stats">
+                        <div class="work-stat">
+                            <span class="work-stat-value">5m</span>
+                            <span class="work-stat-label" data-i18n="work.project3.stat1">Diameter</span>
+                        </div>
+                        <div class="work-stat">
+                            <span class="work-stat-value">3000KG</span>
+                            <span class="work-stat-label" data-i18n="work.project3.stat2">Load</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Gallery Section -->
     <section class="section gallery" id="gallery">
         <div class="section-title fade-in">
@@ -1012,6 +1234,8 @@ html[dir="ltr"] .contact-text {
             </div>
         </div>
     </section>
+
+    
 
     <!-- Features Section -->
     <section class="section" id="features">
@@ -1244,6 +1468,24 @@ html[dir="ltr"] .contact-text {
                 "gallery.item5": "Engineering Marvel",
                 "gallery.item6": "Perfect Rotation",
                 "gallery.more": "More Info",
+                "work.titleGold": "Our",
+                "work.title": "Work",
+                "work.completed": "Completed",
+                "work.project1.title": "Bfoam Car Was",
+                "work.project1.location": "Riyadh, Saudi Arabia",
+                "work.project1.desc": "A ground-level smart turntable platform manufactured from high-quality laser-cut steel, equipped with an intelligent control system that supports remote operation via mobile phone and a physical control panel.",
+                "work.project1.stat1": "Diameter",
+                "work.project1.stat2": "Load",
+                "work.project2.title": "Private Collection Display",
+                "work.project2.location": "Dubai, UAE",
+                "work.project2.desc": "Bespoke turntable platform for a prestigious private car collection, featuring silent operation and custom marble finish.",
+                "work.project2.stat1": "Capacity",
+                "work.project2.stat2": "Rotation",
+                "work.project3.title": "New Zero Car Wash",
+                "work.project3.location": "Jeddah, Saudi Arabia",
+                "work.project3.desc": "An above-ground smart turntable platform raised 10 cm from floor level, constructed from high-quality laser-cut steel, and equipped with an intelligent control system that supports remote operation via mobile phone and a physical control panel.",
+                "work.project3.stat1": "Diameter",
+                "work.project3.stat2": "Load",
                 "features.title": "Why Choose <span style='color: var(--gold);'>Saudi Turntables</span>",
                 "features.f1.title": "Precision Engineering",
                 "features.f1.desc": "Precisely designed and engineered by specialized engineers with decades of experience.",
@@ -1310,6 +1552,24 @@ html[dir="ltr"] .contact-text {
                 "gallery.item5": "Engineering Marvel",
                 "gallery.item6": "Perfect Rotation",
                 "gallery.more": "المزيد",
+                "work.titleGold": "أعمالنا",
+                "work.title": "المنجزة",
+                "work.completed": "مكتمل",
+                "work.project1.title": "بي فوم مغسلة سيارات",
+                "work.project1.location": "الرياض، المملكة العربية السعودية",
+                "work.project1.desc": "منصة دوّارة ذكية بمستوى الأرض، مصنوعة من فولاذ عالي الجودة مقطوع بالليزر، ومزوّدة بنظام تحكم ذكي يتيح التشغيل عن بُعد عبر الجوال إضافةً إلى لوحة تحكم يدوية.",
+                "work.project1.stat1": "القطر",
+                "work.project1.stat2": "الحمولة",
+                "work.project2.title": "عرض مجموعة خاصة",
+                "work.project2.location": "دبي، الإمارات",
+                "work.project3.desc": "منصة دوّارة ذكية مرتفعة عن مستوى الأرض بمقدار 10 سم، مصنوعة من فولاذ عالي الجودة مقطوع بالليزر، ومزوّدة بنظام تحكم ذكي يتيح التشغيل عن بُعد عبر الجوال إضافةً إلى لوحة تحكم يدوية.",
+                "work.project2.stat1": "السعة",
+                "work.project2.stat2": "الدوران",
+                "work.project3.title": "نيو زيرو مغسلة سيارات",
+                "work.project3.location": "جدة، المملكة العربية السعودية",
+                "work.project2.desc": "نظام منصة دوارة عالية السعة لمعرض سيارات دولي مع إمكانيات التحكم عن بعد.",
+                "work.project3.stat1": "القطر",
+                "work.project3.stat2": "الحمولة",
                 "features.title": "لماذا تختار <span style='color: var(--gold);'>Saudi Turntables</span>",
                 "features.f1.title": "هندسة دقيقة",
                 "features.f1.desc": "مصممة ومهندسة بدقة من قبل مهندسين متخصصين ذوي خبرة عقود.",
