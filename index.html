@@ -76,6 +76,7 @@
         }
         
         h1, h2, h3, h4, h5, h6 {
+           
             font-weight: 700;
         }
         
@@ -106,6 +107,7 @@
             gap: 1rem;
         }
         
+        /* Adjustments for RTL: reverse ordering and alignments */
         html[dir="rtl"] .nav-container {
             direction: rtl;
         }
@@ -160,47 +162,53 @@
             box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3);
         }
         
-        /* =============================
-           HERO SECTION — VIDEO BG
-           ============================= */
+        /* Hero Section */
         .hero {
             min-height: calc(100vh - 90px);
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
-            overflow: hidden;
+            /* Allow text to expand in taller languages (Arabic) without being clipped */
+            overflow: visible;
             padding: 3rem 2rem;
         }
-
-        /* The <video> fills the hero and stays behind everything */
-        .hero-video {
+        
+        .hero::before {
+            content: '';
             position: absolute;
-            inset: 0;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            object-position: center;
-            z-index: 0;
-            pointer-events: none;
+            background: linear-gradient(135deg, var(--black) 0%, var(--black) 50%, #1a1a1a 100%);
+            z-index: -2;
         }
-
-        /* Dark overlay so text stays readable over any video */
-        .hero-video-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(
-                135deg,
-                rgba(10, 10, 10, 0.72) 0%,
-                rgba(10, 10, 10, 0.55) 50%,
-                rgba(26, 26, 26, 0.65) 100%
-            );
-            z-index: 1;
-        }
-
-        /* Glows now sit above the overlay but behind the content */
+        
         .hero-glow-1, .hero-glow-2 {
-            display: none;
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.15;
+            z-index: -1;
+        }
+        
+        .hero-glow-1 {
+            width: 400px;
+            height: 400px;
+            background: var(--gold);
+            top: 25%;
+            left: 25%;
+            animation: pulse 4s infinite alternate;
+        }
+        
+        .hero-glow-2 {
+            width: 300px;
+            height: 300px;
+            background: var(--gold);
+            bottom: 25%;
+            right: 25%;
+            animation: pulse 5s infinite alternate-reverse;
         }
         
         @keyframes pulse {
@@ -211,16 +219,17 @@
         .hero-content {
             text-align: center;
             max-width: 800px;
-            z-index: 3; /* above video, overlay, and glows */
+            z-index: 1;
             padding: 2rem;
-            position: relative;
         }
         
+        /* For RTL, center text remains centered visually but line-height and padding increased */
         html[dir="rtl"] .hero-content {
             text-align: center;
             padding-bottom: 2.5rem;
         }
 
+        /* Improve line-height for Arabic to avoid clipping and overlapping */
         html[dir="rtl"] .hero h1,
         html[dir="rtl"] .hero p {
             line-height: 1.35;
@@ -273,46 +282,66 @@
         }
         
         .btn-secondary {
-            background: transparent;
-            color: var(--gold);
-            padding: clamp(0.6rem, 2vw, 1rem) clamp(1.2rem, 4vw, 2.5rem);
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: clamp(0.9rem, 2.5vw, 1.1rem);
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.3s ease;
+  background: transparent;
+  color: var(--gold);
+  padding: clamp(0.6rem, 2vw, 1rem) clamp(1.2rem, 4vw, 2.5rem);
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  border: 2px solid var(--gold);
+}
+
+/* Hover Effects */
+.btn-primary:hover, .btn-secondary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 30px rgba(212, 175, 55, 0.4);
+}
+
+.btn-primary:hover {
+  background: var(--gold-light);
+}
+
+.btn-secondary:hover {
+  background: var(--gold);
+  color: var(--black);
+}
+
+        
+        /* Floating Elements */
+        .floating-circle {
+            position: absolute;
             border: 2px solid var(--gold);
+            border-radius: 50%;
+            opacity: 0.2;
+            z-index: 0;
         }
-
-        .btn-primary:hover, .btn-secondary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(212, 175, 55, 0.4);
+        
+        .circle-1 {
+            top: 5rem;
+            left: 5rem;
+            width: 80px;
+            height: 80px;
+            animation: rotate 20s linear infinite;
         }
-
-        .btn-primary:hover {
-            background: var(--gold-light);
+        
+        .circle-2 {
+            bottom: 5rem;
+            right: 5rem;
+            width: 64px;
+            height: 64px;
+            animation: rotateReverse 15s linear infinite;
         }
-
-        .btn-secondary:hover {
-            background: var(--gold);
-            color: var(--black);
-        }
-
-        .floating-circle { display: none; }
-
-        @keyframes pulse {
-            from { opacity: 0.1; transform: scale(1); }
-            to { opacity: 0.25; transform: scale(1.2); }
-        }
-
+        
         @keyframes rotate {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
-
+        
         @keyframes rotateReverse {
             from { transform: rotate(0deg); }
             to { transform: rotate(-360deg); }
@@ -329,15 +358,16 @@
         }
         
         .section-title h2 {
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            margin-bottom: 1.5rem;
-            background: linear-gradient(to right, var(--white), var(--gold));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            display: inline-block;
-            white-space: nowrap;
-        }
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    margin-bottom: 1.5rem;
+    background: linear-gradient(to right, var(--white), var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+    white-space: nowrap; /* Prevent line breaks */
+}
 
+        
         .section-title .divider {
             width: 30px;
             height: 3px;
@@ -346,17 +376,18 @@
             border-radius: 2px;
         }
         
-        /* About Section */
+        /* About Section - wrapped layout to control spacing */
         .about-wrapper {
             max-width: 1200px;
             margin: 0 auto;
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 4.5rem;
+            gap: 4.5rem; /* added more space between image and text */
             align-items: center;
             padding: 2rem 0;
         }
 
+        /* For smaller screens the wrapper stacks */
         @media (max-width: 768px) {
             .about-wrapper {
                 grid-template-columns: 1fr;
@@ -369,7 +400,7 @@
             color: var(--gray-300);
             margin-bottom: 1.5rem;
             line-height: 1.8;
-            text-align: center;
+            text-align: center; /* centered text per request */
         }
         
         .about-image {
@@ -422,6 +453,7 @@
             position: relative;
             border-radius: 1.5rem;
             overflow: hidden;
+            /* let the item height adapt to content so localized text doesn't get cut off */
             height: auto;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             border: 1px solid var(--gray-700);
@@ -482,7 +514,7 @@
             box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
         }
 
-        /* Our Work Section */
+        /* Our Work Section - New */
         .our-work {
             background: var(--black);
             position: relative;
@@ -693,6 +725,7 @@
         .contact-container {
             max-width: 1200px;
             margin: 0 auto;
+     
             grid-template-columns: 1fr 1fr;
             gap: 4rem;
         }
@@ -710,22 +743,31 @@
             align-items: flex-start;
         }
 
+        /*
+          Use logical margin properties so spacing automatically flips between LTR/RTL.
+          .contact-text will have a start margin to separate it from the icon. In RTL that
+          start is on the right side, so the icon will appear visually on the right when
+          the container is row-reverse.
+        */
         .contact-text {
-            margin-inline-start: 1rem;
+            margin-inline-start: 1rem; /* space between icon and text in normal flow */
             margin-inline-end: 0;
         }
         
+        /* In RTL, flip contact item layout so icon stays visually on the "start" side */
         html[dir="rtl"] .contact-item {
             flex-direction: row-reverse;
             text-align: left;
         }
         
+        /* Ensure the contact-text spacing flips correctly in RTL */
         html[dir="rtl"] .contact-text {
             margin-inline-start: 0;
             margin-inline-end: 1rem;
             text-align: right;
         }
 
+        /* Keep the icon a fixed-size circle */
         .contact-icon {
             width: 48px;
             height: 48px;
@@ -844,77 +886,90 @@
             box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3);
         }
 
-        .contact-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            position: relative;
-        }
 
-        .contact-item > .contact-icon {
-            width: 48px;
-            height: 48px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            background: var(--gold);
-            color: var(--black);
-            font-size: 1.2rem;
-            flex-shrink: 0;
-        }
+  /* CONTACT ITEM BASE */
+.contact-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  position: relative; /* for absolute icon positioning */
+}
 
-        html[dir="ltr"] .contact-item {
-            flex-direction: row;
-        }
+/* ICON */
+.contact-item > .contact-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--gold);
+  color: var(--black);
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
 
-        html[dir="ltr"] .contact-item > .contact-icon {
-            margin-right: 8px;
-        }
+/* LTR: icon on left */
+html[dir="ltr"] .contact-item {
+  flex-direction: row;
+}
 
-        html[dir="rtl"] .contact-item {
-            flex-direction: row-reverse;
-        }
+html[dir="ltr"] .contact-item > .contact-icon {
+  margin-right: 8px; /* small gap between icon and text */
+}
 
-        html[dir="rtl"] .contact-item > .contact-icon {
-            margin-left: 8px;
-        }
+/* RTL: icon on right */
+html[dir="rtl"] .contact-item {
+  flex-direction: row-reverse;
+}
 
-        .contact-item > .contact-text {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            margin: 0;
-            color: var(--gray-300);
-            line-height: 1.4;
-        }
+html[dir="rtl"] .contact-item > .contact-icon {
+  margin-left: 8px; /* small gap between icon and text */
+}
 
-        html[dir="rtl"] .contact-text {
-            text-align: right;
-            direction: rtl;
-            align-items: flex-end;
-        }
+/* CONTACT TEXT */
+.contact-item > .contact-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0;
+  color: var(--gray-300);
+  line-height: 1.4;
+}
 
-        html[dir="ltr"] .contact-text {
-            text-align: left;
-            align-items: flex-start;
-        }
+/* RTL text alignment */
+html[dir="rtl"] .contact-text {
+  text-align: right;
+  direction: rtl; /* text flows right-to-left */
+  align-items: flex-end;
+}
 
-        .contact-text h4,
-        .contact-text p {
-            margin: 0;
-            line-height: 1.4;
-        }
+/* LTR text alignment */
+html[dir="ltr"] .contact-text {
+  text-align: left;
+  align-items: flex-start;
+}
 
-        .contact-text p[data-i18n^="contact.phone"],
-        .contact-text p[data-i18n^="contact.phone1"],
-        .contact-text p[data-i18n^="contact.phoneUS"],
-        .contact-text p[data-i18n^="contact.phoneUK"],
-        .contact-text p[data-i18n^="contact.phoneIT"] {
-            direction: ltr;
-            unicode-bidi: embed;
-            margin-top: 0.15rem;
-        }
+/* Remove extra spacing inside */
+.contact-text h4,
+.contact-text p {
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Keep phone numbers LTR even in Arabic */
+.contact-text p[data-i18n^="contact.phone"],
+.contact-text p[data-i18n^="contact.phone1"],
+.contact-text p[data-i18n^="contact.phoneUS"],
+.contact-text p[data-i18n^="contact.phoneUK"],
+.contact-text p[data-i18n^="contact.phoneIT"] {
+  direction: ltr;
+  unicode-bidi: embed;
+  margin-top: 0.15rem;
+}
+
+
+
         
         /* Footer */
         footer {
@@ -1003,6 +1058,10 @@
                 font-size: 2rem;
             }
         }
+
+       
+
+
     </style>
 </head>
 <body>
@@ -1023,30 +1082,6 @@
 
     <!-- Hero Section -->
     <section class="hero" id="hero">
-
-        <!--
-            VIDEO BACKGROUND
-            ─────────────────────────────────────────────────────────────────
-            Replace "assets/hero-video.mp4" with the path to your actual video.
-            Add a second <source> with a .webm version for broader browser support.
-            The poster attribute shows a still image while the video loads.
-        -->
-        <video
-            class="hero-video"
-            autoplay
-            muted
-            loop
-            playsinline
-            poster="assets/image6.jpeg"
-        >
-            <source src="assets/hero-video.mp4" type="video/mp4">
-            <source src="assets/hero-video.webm" type="video/webm">
-            <!-- Browsers that don't support video will just show the poster image -->
-        </video>
-
-        <!-- Semi-transparent dark overlay for text readability -->
-        <div class="hero-video-overlay"></div>
-
         <div class="hero-glow-1"></div>
         <div class="hero-glow-2"></div>
         <div class="floating-circle circle-1"></div>
@@ -1054,7 +1089,8 @@
         
         <div class="hero-content">
             <h1 data-i18n="hero.title">Show Your Cars Like Never Before</h1>
-                     <div class="hero-buttons">
+            <p data-i18n="hero.subtitle">Precision-engineered automotive turntables that transform your vehicle into a captivating centerpiece.</p>
+            <div class="hero-buttons">
                 <a href="#gallery" class="btn-primary" id="viewDesigns" data-i18n="hero.view">View Our Designs <i class="fas fa-arrow-right"></i></a>
                 <a href="#contact" class="btn-secondary" id="contactCTa" data-i18n="hero.contact">Contact Us</a>
             </div>
@@ -1068,6 +1104,7 @@
             <div class="divider"></div>
         </div>
 
+        <!-- Wrapped layout so image and text are in the same grid and have controlled spacing -->
         <div class="about-wrapper fade-in">
             <div class="about-image">
                 <img src="assets/image6.jpeg" alt="Craftsmanship">
@@ -1081,7 +1118,7 @@
         </div>
     </section>
 
-     <!-- Our Work Section -->
+     <!-- Our Work Section - NEW -->
     <section class="section our-work" id="our-work">
         <div class="section-title fade-in">
             <h2><span style="color: var(--gold);" data-i18n="work.titleGold">Our</span> <span data-i18n="work.title">Work</span></h2>
@@ -1115,6 +1152,7 @@
                 </div>
             </div>
 
+        
             <!-- Work Card 3 -->
             <div class="work-card fade-in">
                 <div class="work-image-container">
@@ -1197,6 +1235,8 @@
         </div>
     </section>
 
+    
+
     <!-- Features Section -->
     <section class="section" id="features">
         <div class="section-title fade-in">
@@ -1245,6 +1285,7 @@
                     VAT: 311433427200003
                 </p>
             </div>
+            
 
             <div class="feature-card fade-in">
                 <div class="feature-icon">
@@ -1255,6 +1296,9 @@
                     The contracts are certified by the Saudi Chamber of Commerce.
                 </p>
             </div>
+            
+            
+
         </div>
     </section>
 
@@ -1264,6 +1308,7 @@
             <h2><span style="color: var(--gold);" data-i18n="contact.titleGold">Get In</span> <span data-i18n="contact.title">Touch</span></h2>
             <div class="divider"></div>
         </div>
+
 
         <div class="contact-form fade-in">
             <form id="contactForm">
@@ -1302,6 +1347,7 @@
             <div class="contact-info fade-in">
                 <h3 data-i18n="contact.heading">Contact Information</h3>
                 
+              
                 <div class="contact-item">
                     <div class="contact-icon" aria-hidden="true">
                         <i class="fas fa-phone"></i>
@@ -1311,6 +1357,8 @@
                         <p data-i18n="contact.phone1">(+971) 566 278 283</p>
                     </div>
                 </div>
+
+
 
                 <div class="contact-item">
                     <div class="contact-icon" aria-hidden="true">
@@ -1322,6 +1370,7 @@
                     </div>
                 </div>
 
+                <!-- United States -->
                 <div class="contact-item">
                     <div class="contact-icon" aria-hidden="true">
                         <i class="fas fa-phone"></i>
@@ -1332,6 +1381,7 @@
                     </div>
                 </div>
 
+                <!-- United Kingdom -->
                 <div class="contact-item">
                     <div class="contact-icon" aria-hidden="true">
                         <i class="fas fa-phone"></i>
@@ -1342,6 +1392,7 @@
                     </div>
                 </div>
 
+                <!-- Italy -->
                 <div class="contact-item">
                     <div class="contact-icon" aria-hidden="true">
                         <i class="fas fa-phone"></i>
@@ -1351,6 +1402,8 @@
                         <p data-i18n="contact.phoneIT">(+39) 02 1234 5678</p>
                     </div>
                 </div>
+              
+            
                 
                 <div class="contact-item">
                     <div class="contact-icon" aria-hidden="true">
@@ -1358,7 +1411,7 @@
                     </div>
                     <div class="contact-text">
                         <h4 data-i18n="contact.emailTitle">Email</h4>
-                        <p data-i18n="contact.email"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="bcd5d2dad3fcefddc9d8d5e8c9ced2c8ddded0d992dfd3d1">[email&#160;protected]</a></p>
+                        <p data-i18n="contact.email">info@SaudiTurntable.com</p>
                     </div>
                 </div>
 
@@ -1368,7 +1421,7 @@
                     </div>
                     <div class="contact-text">
                         <h4 data-i18n="contact.salesTitle">Sales Email</h4>
-                        <p data-i18n="contact.salesEmail"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="632b16170b020a05020b23300216070a3716110d1702010f064d000c0e">[email&#160;protected]</a></p>
+                        <p data-i18n="contact.salesEmail">Huthaifah@SaudiTurntable.com</p>
                     </div>
                 </div>
                 
@@ -1381,7 +1434,11 @@
                         <p data-i18n="contact.location">Riyadh, Saudi Arabia</p>
                     </div>
                 </div>
+                
+               
             </div>
+            
+           
         </div>
     </section>
 
@@ -1390,7 +1447,8 @@
         <p data-i18n="footer">&copy; 2024 Saudi Turntables. All rights reserved. | Crafted with precision and passion.</p>
     </footer>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    <script>
+        // Translations object: English (en) and Arabic (ar)
         const TRANSLATIONS = {
             en: {
                 "nav.contact": "Contact Us",
@@ -1413,7 +1471,7 @@
                 "work.titleGold": "Our",
                 "work.title": "Work",
                 "work.completed": "Completed",
-                "work.project1.title": "Bfoam Car Wash",
+                "work.project1.title": "Bfoam Car Was",
                 "work.project1.location": "Riyadh, Saudi Arabia",
                 "work.project1.desc": "A ground-level smart turntable platform manufactured from high-quality laser-cut steel, equipped with an intelligent control system that supports remote operation via mobile phone and a physical control panel.",
                 "work.project1.stat1": "Diameter",
@@ -1438,9 +1496,12 @@
                 "features.f4.title": "Bespoke Solutions",
                 "features.f4.desc": "Fully customizable platforms designed for your specific automotive masterpiece.",
                 "features.f5.title": "A Trusted Name in Construction Excellence",
-                "features.f5.desc": "Al Masar Al Hosary Contracting Est<br>CR: 4030488293<br>VAT: 311433427200003",
-                "features.f6.title": "Certified Contracts",
-                "features.f6.desc": "All contracts are certified by the Saudi Chamber of Commerce.",
+"features.f5.desc": "Al Masar Al Hosary Contracting Est<br>CR: 4030488293<br>VAT: 311433427200003",
+
+
+"features.f6.title": "Certified Contracts",
+"features.f6.desc": "All contracts are certified by the Saudi Chamber of Commerce.",
+
                 "contact.titleGold": "Get In",
                 "contact.title": "Touch",
                 "contact.heading": "Contact Information",
@@ -1519,9 +1580,9 @@
                 "features.f4.title": "حلول مصممة خصيصاً",
                 "features.f4.desc": "منصات قابلة للتخصيص بالكامل مصممة لتحفة سيارتك الخاصة.",
                 "features.f5.title": "اسم موثوق في مجال التميز الإنشائي",
-                "features.f5.desc": "مؤسسة المسار الحصري للمقاولات<br>السجل التجاري: 4030488293<br>الرقم الضريبي: 311433427200003",
-                "features.f6.title": "عقود معتمدة",
-                "features.f6.desc": "جميع العقود معتمدة من غرفة التجارة السعودية.",
+"features.f5.desc": "مؤسسة المسار الحصري للمقاولات<br>السجل التجاري: 4030488293<br>الرقم الضريبي: 311433427200003",
+"features.f6.title": "عقود معتمدة",
+"features.f6.desc": "جميع العقود معتمدة من غرفة التجارة السعودية.",
                 "contact.titleGold": "تواصل",
                 "contact.title": "معنا",
                 "contact.heading": "معلومات التواصل",
@@ -1556,10 +1617,13 @@
             }
         };
 
+        // Apply translations to elements with data-i18n and data-i18n-placeholder
         function applyTranslations(lang) {
+            // Set html lang and dir attributes
             document.documentElement.lang = lang;
             document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
             
+            // Toggle active state on language buttons
             document.querySelectorAll('.lang-btn').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.lang === lang);
             });
@@ -1570,6 +1634,7 @@
                 const key = el.getAttribute('data-i18n');
                 const value = translations[key];
                 if (value !== undefined) {
+                    // If node contains inline HTML (like spans), we set innerHTML; otherwise textContent.
                     if (value.includes('<')) {
                         el.innerHTML = value;
                     } else {
@@ -1578,6 +1643,7 @@
                 }
             });
 
+            // placeholders
             document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
                 const key = el.getAttribute('data-i18n-placeholder');
                 const value = translations[key];
@@ -1586,10 +1652,12 @@
                 }
             });
 
+            // document title
             if (translations['hero.title']) {
                 document.title = translations['hero.title'] + ' | Saudi Turntables';
             }
 
+            // Flip arrow icon direction for Arabic
             document.querySelectorAll('.fas.fa-arrow-right, .fas.fa-arrow-left').forEach(icon => {
                 if (lang === 'ar') {
                     icon.classList.remove('fa-arrow-right');
@@ -1600,6 +1668,7 @@
                 }
             });
 
+            // small visual tweak: increase hero padding when Arabic to avoid cutting
             if (lang === 'ar') {
                 document.querySelector('.hero').style.paddingBottom = '3rem';
             } else {
@@ -1607,19 +1676,25 @@
             }
         }
 
+        // Language switching logic with persistence
         function setLanguage(lang) {
             localStorage.setItem('site_lang', lang);
             applyTranslations(lang);
         }
 
+        // Initialize language from storage / default
         (function initLanguage() {
             const saved = localStorage.getItem('site_lang') || 'ar';
+
+
             applyTranslations(saved);
         })();
 
+        // Wire up language buttons
         document.getElementById('btn-en').addEventListener('click', () => setLanguage('en'));
         document.getElementById('btn-ar').addEventListener('click', () => setLanguage('ar'));
 
+        // Navbar scroll effect
         const navbar = document.getElementById('navbar');
         window.addEventListener('scroll', () => {
             if (window.scrollY > 50) {
@@ -1629,31 +1704,24 @@
             }
         });
 
+        // Fade-in animations on scroll
         const fadeElements = document.querySelectorAll('.fade-in');
-
+        
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('appear');
-                    observer.unobserve(entry.target);
                 }
             });
         }, {
-            threshold: 0,
-            rootMargin: '0px 0px -50px 0px'
+            threshold: 0.1
         });
-
+        
         fadeElements.forEach(element => {
             observer.observe(element);
         });
 
-        // Fallback: if observer doesn't fire within 2s (e.g. video slows rendering), reveal all
-        setTimeout(() => {
-            document.querySelectorAll('.fade-in:not(.appear)').forEach(el => {
-                el.classList.add('appear');
-            });
-        }, 2000);
-
+        // Smooth scrolling for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -1667,60 +1735,70 @@
             });
         });
 
-        const contactForm = document.getElementById('contactForm');
-        if (contactForm) {
-            contactForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
+      // Contact form Firestore submit
+const contactForm = document.getElementById('contactForm');
+if (contactForm) {
+  contactForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-                const firstName = document.getElementById('firstName').value.trim();
-                const lastName = document.getElementById('lastName').value.trim();
-                const email = document.getElementById('email').value.trim();
-                const phone = document.getElementById('phone').value.trim();
-                const message = document.getElementById('message').value.trim();
-                const lang = document.documentElement.lang || 'en';
+    const firstName = document.getElementById('firstName').value.trim();
+    const lastName = document.getElementById('lastName').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const message = document.getElementById('message').value.trim();
+    const lang = document.documentElement.lang || 'en';
 
-                if (!firstName || !lastName || !email || !phone || !message) {
-                    alert(lang === 'ar' ? 'يرجى ملء جميع الحقول.' : 'Please fill in all fields.');
-                    return;
-                }
+    if (!firstName || !lastName || !email || !phone || !message) {
+      alert(lang === 'ar' ? 'يرجى ملء جميع الحقول.' : 'Please fill in all fields.');
+      return;
+    }
 
-                try {
-                    await window.addDoc(window.collection(window.db, "contactMessages"), {
-                        firstName,
-                        lastName,
-                        email,
-                        phone,
-                        message,
-                        timestamp: window.serverTimestamp(),
-                    });
+    try {
+      // Add message to Firestore collection "contactMessages"
+      await window.addDoc(window.collection(window.db, "contactMessages"), {
+        firstName,
+        lastName,
+        email,
+        phone,
+        message,
+        timestamp: window.serverTimestamp(),
+      });
 
-                    alert(lang === 'ar'
-                        ? 'تم إرسال رسالتك بنجاح! سيتواصل فريقنا معك قريباً.'
-                        : 'Your message has been sent! Our team will contact you soon.');
+      alert(lang === 'ar'
+        ? 'تم إرسال رسالتك بنجاح! سيتواصل فريقنا معك قريباً.'
+        : 'Your message has been sent! Our team will contact you soon.');
 
-                    contactForm.reset();
-                } catch (error) {
-                    console.error("Error adding document: ", error);
-                    alert(lang === 'ar'
-                        ? 'حدث خطأ أثناء إرسال الرسالة. حاول مرة أخرى لاحقاً.'
-                        : 'Error sending message. Please try again later.');
-                }
-            });
-        }
+      contactForm.reset();
+    } catch (error) {
+      console.error("Error adding document: ", error);
+      alert(lang === 'ar'
+        ? 'حدث خطأ أثناء إرسال الرسالة. حاول مرة أخرى لاحقاً.'
+        : 'Error sending message. Please try again later.');
+    }
+  });
+}
 
+
+        // -------------------------
+        // More Info navigation: append current language to next page so it can use same locale
+        // -------------------------
         function navigateWithLang(page) {
+            // page may be relative (info1.html). Build a URL relative to current location.
             try {
                 const lang = document.documentElement.lang || localStorage.getItem('site_lang') || 'en';
                 const base = new URL(page, window.location.href);
+                // preserve existing query parameters on the destination, but ensure lang param is set
                 base.searchParams.set('lang', lang);
                 window.location.href = base.toString();
             } catch (err) {
+                // fallback
                 const lang = document.documentElement.lang || localStorage.getItem('site_lang') || 'en';
                 const sep = page.includes('?') ? '&' : '?';
                 window.location.href = page + sep + 'lang=' + encodeURIComponent(lang);
             }
         }
 
+        // Attach listeners to "More Info" buttons
         document.querySelectorAll('.more-info-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const page = btn.getAttribute('data-page');
@@ -1728,8 +1806,9 @@
                     navigateWithLang(page);
                 }
             });
-        })
+        });
 
+        // ensure language toolbar shows correct active state on load
         window.addEventListener('DOMContentLoaded', () => {
             const lang = document.documentElement.lang || localStorage.getItem('site_lang') || 'en';
             document.querySelectorAll('.lang-btn').forEach(btn => {
