@@ -520,6 +520,59 @@
             position: relative;
         }
 
+        /* Current Projects Section */
+.current-projects {
+    background: var(--gray-900);
+    position: relative;
+}
+
+.current-projects::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+        radial-gradient(
+            circle at 70% 40%,
+            rgba(212, 175, 55, 0.06) 0%,
+            transparent 50%
+        );
+    pointer-events: none;
+}
+
+.current-projects .work-grid {
+    position: relative;
+    z-index: 1;
+}
+
+.current-projects-intro {
+    max-width: 750px;
+    margin: -2rem auto 4rem;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+.current-projects-intro p {
+    color: var(--gray-300);
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+
+/* In Progress Badge */
+.current-badge {
+    background: rgba(212, 175, 55, 0.95);
+}
+
+/* Arabic adjustments */
+html[dir="rtl"] .current-projects-intro {
+    direction: rtl;
+}
+
+
+
         .our-work::before {
             content: '';
             position: absolute;
@@ -1207,6 +1260,164 @@ html[dir="ltr"] .contact-text {
         </div>
     </section>
 
+        <!-- Current Projects Section -->
+<section class="section current-projects" id="current-projects">
+    <div class="section-title fade-in">
+        <h2>
+            <span style="color: var(--gold);" data-i18n="current.titleGold">Current</span>
+            <span data-i18n="current.title">Projects</span>
+        </h2>
+        <div class="divider"></div>
+    </div>
+
+    <div class="current-projects-intro fade-in">
+        <p data-i18n="current.subtitle">
+            Discover the latest Saudi Turntables projects currently under construction in Riyadh.
+        </p>
+    </div>
+
+    <div class="work-grid">
+
+        <!-- Project 1 - BLVD City -->
+        <div class="work-card fade-in">
+            <div class="work-image-container">
+                <!-- CHANGE IMAGE PATH -->
+                <img src="assets/image10.jpg" alt="BLVD City Dual Turntable Project">
+
+                <div class="work-badge current-badge" data-i18n="current.badge">
+                    In Progress
+                </div>
+            </div>
+
+            <div class="work-content">
+                <h3 class="work-title" data-i18n="current.blvd.title">
+                    BLVD City Dual Turntable
+                </h3>
+
+                <div class="work-location">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span data-i18n="current.blvd.location">
+                        BLVD City, Riyadh, Saudi Arabia
+                    </span>
+                </div>
+
+                <p class="work-description" data-i18n="current.blvd.desc">
+                    A one-of-a-kind dual turntable system featuring two independently controlled rotating platforms in a single installation. The center platform is a 1.5-meter circular turntable, surrounded by a larger doughnut-shaped rotating platform, allowing each system to operate independently.
+                </p>
+
+                <div class="work-stats">
+                    <div class="work-stat">
+                        <span class="work-stat-value">2</span>
+                        <span class="work-stat-label" data-i18n="current.blvd.stat1">
+                            Independent Turntables
+                        </span>
+                    </div>
+
+                    <div class="work-stat">
+                        <span class="work-stat-value">1.5m</span>
+                        <span class="work-stat-label" data-i18n="current.blvd.stat2">
+                            Center Diameter
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Project 2 - Ford Al Jazirah -->
+        <div class="work-card fade-in">
+            <div class="work-image-container">
+                <!-- CHANGE IMAGE PATH -->
+                <img src="assets/image11.avif" alt="Ford Al Jazirah Turntable Project">
+
+                <div class="work-badge current-badge" data-i18n="current.badge">
+                    In Progress
+                </div>
+            </div>
+
+            <div class="work-content">
+                <h3 class="work-title" data-i18n="current.ford.title">
+                    Ford Al Jazirah
+                </h3>
+
+                <div class="work-location">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span data-i18n="current.ford.location">
+                        Khurais Road, Riyadh, Saudi Arabia
+                    </span>
+                </div>
+
+                <p class="work-description" data-i18n="current.ford.desc">
+                    A custom automotive turntable installation currently under construction for Ford Al Jazirah on Khurais Road. The platform is designed to sit at the same level as the surrounding ground, creating a clean and seamless integration into the showroom environment.
+                </p>
+
+                <div class="work-stats">
+                    <div class="work-stat">
+                        <span class="work-stat-value">Ground</span>
+                        <span class="work-stat-label" data-i18n="current.ford.stat1">
+                            Level Installation
+                        </span>
+                    </div>
+
+                    <div class="work-stat">
+                        <span class="work-stat-value">Riyadh</span>
+                        <span class="work-stat-label" data-i18n="current.ford.stat2">
+                            Location
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Project 3 - Luxury Car Dealer -->
+        <div class="work-card fade-in">
+            <div class="work-image-container">
+                <!-- CHANGE IMAGE PATH -->
+                <img src="assets/image12.webp" alt="Luxury Car Dealer Turntable Project">
+
+                <div class="work-badge current-badge" data-i18n="current.badge">
+                    In Progress
+                </div>
+            </div>
+
+            <div class="work-content">
+                <h3 class="work-title" data-i18n="current.luxury.title">
+                    Luxury Automotive Showroom
+                </h3>
+
+                <div class="work-location">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span data-i18n="current.luxury.location">
+                        Olaya, Riyadh, Saudi Arabia
+                    </span>
+                </div>
+
+                <p class="work-description" data-i18n="current.luxury.desc">
+                    An above-ground automotive display turntable designed for a luxury car dealership in Olaya. The elevated platform creates a striking centerpiece, allowing premium vehicles to be showcased with continuous, elegant rotation.
+                </p>
+
+                <div class="work-stats">
+                    <div class="work-stat">
+                        <span class="work-stat-value">Above</span>
+                        <span class="work-stat-label" data-i18n="current.luxury.stat1">
+                            Ground Installation
+                        </span>
+                    </div>
+
+                    <div class="work-stat">
+                        <span class="work-stat-value">Luxury</span>
+                        <span class="work-stat-label" data-i18n="current.luxury.stat2">
+                            Automotive Display
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
     <!-- Gallery Section -->
     <section class="section gallery" id="gallery">
         <div class="section-title fade-in">
@@ -1259,7 +1470,9 @@ html[dir="ltr"] .contact-text {
                 </div>
             </div>
         </div>
-    </section>
+    </section> 
+
+
 
     
 
@@ -1525,6 +1738,33 @@ html[dir="ltr"] .contact-text {
                 "features.f4.desc": "Fully customizable platforms designed for your specific automotive masterpiece.",
                 "features.f5.title": "A Trusted Name in Construction Excellence",
 "features.f5.desc": "Al Masar Al Hosary Contracting Est<br>CR: 4030488293<br>VAT: 311433427200003",
+"current.titleGold": "Current",
+"current.title": "Projects",
+
+"current.subtitle": "Discover the latest Saudi Turntables projects currently under construction in Riyadh.",
+
+"current.badge": "In Progress",
+
+
+"current.blvd.title": "BLVD City Dual Turntable",
+"current.blvd.location": "BLVD City, Riyadh, Saudi Arabia",
+"current.blvd.desc": "A one-of-a-kind dual turntable system featuring two independently controlled rotating platforms in a single installation. The center platform is a 1.5-meter circular turntable, surrounded by a larger doughnut-shaped rotating platform, allowing each system to operate independently.",
+"current.blvd.stat1": "Independent Turntables",
+"current.blvd.stat2": "Center Diameter",
+
+
+"current.ford.title": "Ford Al Jazirah",
+"current.ford.location": "Khurais Road, Riyadh, Saudi Arabia",
+"current.ford.desc": "A custom automotive turntable installation currently under construction for Ford Al Jazirah on Khurais Road. The platform is designed to sit at the same level as the surrounding ground, creating a clean and seamless integration into the showroom environment.",
+"current.ford.stat1": "Level Installation",
+"current.ford.stat2": "Location",
+
+
+"current.luxury.title": "Luxury Automotive Showroom",
+"current.luxury.location": "Olaya, Riyadh, Saudi Arabia",
+"current.luxury.desc": "An above-ground automotive display turntable designed for a luxury car dealership in Olaya. The elevated platform creates a striking centerpiece, allowing premium vehicles to be showcased with continuous, elegant rotation.",
+"current.luxury.stat1": "Above Ground",
+"current.luxury.stat2": "Automotive Display",
 
 
 "features.f6.title": "Certified Contracts",
@@ -1614,6 +1854,37 @@ html[dir="ltr"] .contact-text {
 "features.f6.title": "عقود معتمدة",
 "features.f6.desc": "جميع العقود معتمدة من غرفة التجارة السعودية.",
                 "contact.titleGold": "تواصل",
+
+
+                "current.titleGold": "المشاريع",
+"current.title": "الحالية",
+
+"current.subtitle": "اكتشف أحدث مشاريع Saudi Turntables التي يتم تنفيذها حالياً في مدينة الرياض.",
+
+"current.badge": "قيد التنفيذ",
+
+
+"current.blvd.title": "المنصة الدوارة المزدوجة – بوليفارد سيتي",
+"current.blvd.location": "بوليفارد سيتي، الرياض، المملكة العربية السعودية",
+"current.blvd.desc": "مشروع فريد من نوعه يتكون من منصتين دوارتين مستقلتين ضمن نظام واحد. تتكون المنصة المركزية من دائرة دوارة بقطر 1.5 متر، محاطة بمنصة دوارة خارجية على شكل حلقة، مما يسمح بالتحكم والتشغيل المستقل لكل منصة.",
+"current.blvd.stat1": "منصتان مستقلتان",
+"current.blvd.stat2": "قطر المنصة المركزية",
+
+
+"current.ford.title": "فورد الجزيرة",
+"current.ford.location": "طريق خريص، الرياض، المملكة العربية السعودية",
+"current.ford.desc": "منصة دوارة مخصصة يتم تنفيذها حالياً لصالح فورد الجزيرة على طريق خريص. تم تصميم المنصة لتكون على نفس مستوى الأرض المحيطة بها، مما يوفر مظهراً متكاملاً وانسيابياً داخل بيئة المعرض.",
+"current.ford.stat1": "على مستوى الأرض",
+"current.ford.stat2": "الموقع",
+
+
+"current.luxury.title": "معرض سيارات فاخر",
+"current.luxury.location": "العليا، الرياض، المملكة العربية السعودية",
+"current.luxury.desc": "منصة دوارة لعرض السيارات يتم تنفيذها لمعرض سيارات فاخر في منطقة العليا. تم تصميم المنصة لتكون فوق مستوى الأرض، لتشكل نقطة جذب مميزة تسمح بعرض السيارات الفاخرة بحركة دوران أنيقة ومستمرة.",
+"current.luxury.stat1": "فوق مستوى الأرض",
+"current.luxury.stat2": "عرض السيارات",
+
+
                 "contact.title": "معنا",
                 "contact.heading": "معلومات التواصل",
                 "contact.phoneTitle": "الهاتف السعودي",
